@@ -1,12 +1,28 @@
 <launch>
+
+    <!--Use simulated time for all nodes to synchronize with the bag file playback-->
     <param name="/use_sim_time" value="true" />
 
+    <!--Load the robot description from the xacro file-->
+    <env name="ROS_PACKAGE_PATH" value="$(env ROS_PACKAGE_PATH):$(find p2os_urdf)"/>
+    <param name="robot_description" command="$(find xacro)/xacro --inorder $(find p2os_urdf)/defs/pioneer3at.xacro" />
+
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="false" output="screen" />
+
+    <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
+        <param name="use_gui" value="false"/>
+    </node>
+
+    <!--Publish a static transform between the LiDAR frame and the base frame-->
     <node pkg="tf" type="static_transform_publisher" name="lidar2base" args="0.185 0 0.75 0 0 0 base_link velodyne 100"/>
 
+    <!--Include the localization node-->
     <include file="$(find pioneer)/launch/hdl_localization_pioneer.launch" />
 
+    <!--Launch RViz with a predefined configuration for visualization-->
     <node pkg="rviz" type="rviz" name="rviz" args="-d $(find pioneer)/rviz/localization_pioneer.rviz" />
 
+    #<!--Play the recorded bag file to provide sensor data for localization-->
     <node pkg="rosbag" type="play" name="player" args="--clock /home/jolehisy/tfm_datos/bags/pioneer_2026-02-05-11-24-40.bag" />
 
 </launch>
