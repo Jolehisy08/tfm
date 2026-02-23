@@ -6,6 +6,7 @@ Panels:
       Expanded:
         - /Global Options1
         - /Status1
+        - /TF1/Frames1
         - /PointCloud23
         - /MarkerArray1/Namespaces1
         - /RobotModel1
@@ -60,9 +61,45 @@ Visualization Manager:
       Filter (whitelist): ""
       Frame Timeout: 50
       Frames:
-        All Enabled: true
+        All Enabled: false
+        back_sonar:
+          Value: false
         base_link:
-          Value: true
+          Value: false
+        front_sonar:
+          Value: false
+        map:
+          Value: false
+        odom_pioneer:
+          Value: false
+        p3at_back_left_axle:
+          Value: false
+        p3at_back_left_hub:
+          Value: false
+        p3at_back_left_wheel:
+          Value: false
+        p3at_back_right_axle:
+          Value: false
+        p3at_back_right_hub:
+          Value: false
+        p3at_back_right_wheel:
+          Value: false
+        p3at_front_left_axle:
+          Value: false
+        p3at_front_left_hub:
+          Value: false
+        p3at_front_left_wheel:
+          Value: false
+        p3at_front_right_axle:
+          Value: false
+        p3at_front_right_hub:
+          Value: false
+        p3at_front_right_wheel:
+          Value: false
+        rslidar:
+          Value: false
+        top_plate:
+          Value: false
         velodyne:
           Value: true
       Marker Alpha: 1
@@ -72,8 +109,35 @@ Visualization Manager:
       Show Axes: true
       Show Names: true
       Tree:
-        base_link:
-          velodyne:
+        map:
+          base_link:
+            back_sonar:
+              {}
+            front_sonar:
+              {}
+            p3at_back_left_axle:
+              p3at_back_left_hub:
+                p3at_back_left_wheel:
+                  {}
+            p3at_back_right_axle:
+              p3at_back_right_hub:
+                p3at_back_right_wheel:
+                  {}
+            p3at_front_left_axle:
+              p3at_front_left_hub:
+                p3at_front_left_wheel:
+                  {}
+            p3at_front_right_axle:
+              p3at_front_right_hub:
+                p3at_front_right_wheel:
+                  {}
+            rslidar:
+              {}
+            top_plate:
+              {}
+            velodyne:
+              {}
+          odom_pioneer:
             {}
       Update Interval: 0
       Value: true
@@ -316,6 +380,86 @@ Visualization Manager:
         Expand Link Details: false
         Expand Tree: false
         Link Tree Style: ""
+        back_sonar:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        base_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        front_sonar:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        p3at_back_left_axle:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        p3at_back_left_hub:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        p3at_back_left_wheel:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        p3at_back_right_axle:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        p3at_back_right_hub:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        p3at_back_right_wheel:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        p3at_front_left_axle:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        p3at_front_left_hub:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        p3at_front_left_wheel:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        p3at_front_right_axle:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        p3at_front_right_hub:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        p3at_front_right_wheel:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        top_plate:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
       Name: RobotModel
       Robot Description: robot_description
       TF Prefix: ""
@@ -350,7 +494,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 107.65576171875
+      Distance: 11.928430557250977
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
@@ -358,17 +502,17 @@ Visualization Manager:
         Value: false
       Field of View: 0.7853981852531433
       Focal Point:
-        X: 25.713754653930664
-        Y: -14.585104942321777
-        Z: -20.35425567626953
+        X: 1.8019566535949707
+        Y: 0.30703118443489075
+        Z: 3.353994846343994
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.6747967600822449
+      Pitch: 1.5697963237762451
       Target Frame: <Fixed Frame>
-      Yaw: 1.1166497468948364
+      Yaw: 5.649837017059326
     Saved: ~
 Window Geometry:
   Displays:
@@ -386,5 +530,5 @@ Window Geometry:
   Views:
     collapsed: false
   Width: 2036
-  X: 3004
-  Y: 419
+  X: 2977
+  Y: 339
