@@ -16,7 +16,10 @@
     </node>
 
     <!--Include the localization node-->
-    <include file="$(find pioneer)/launch/hdl_localization_pioneer.launch" />
+    <include file="$(find pioneer)/launch/hdl_localization_pioneer.launch" >
+        <arg name="map_file" value="/home/jolehisy/tfm_datos/mapa_ull_clean.pcd" />
+        <arg name="odom_child_frame_id" value="base_link" />
+    </include>
 
     <!--Launch RViz with a predefined configuration for visualization-->
     <node pkg="rviz" type="rviz" name="rviz" args="-d $(find pioneer)/rviz/localization_pioneer.rviz" />
