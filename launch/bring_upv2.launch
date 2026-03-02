@@ -1,0 +1,34 @@
+<launch>
+   <!--Launch file to bring up the Pioneer robot with the RSLIDAR and VLP16 LiDARs -->
+   <!--include file="$(find rslidar_sdk)/launch/startHelios.launch" -->
+   <include file="$(find rslidar_sdk)/launch/start.launch"/>
+   <include file="$(find velodyne_pointcloud)/launch/VLP16_points.launch" />
+   
+   <!--include file="$(find mavros)/launch/apm.launch" -->
+
+   <node pkg="p2os_driver" type="p2os_driver" name="p2os_driver" output="screen">
+   
+     <param name="odom_frame_id" value="odom_pioneer" />
+     <param name="port" value="/dev/ttyUSB0" />
+     <param name="pulse" value="1" />
+     <param name="max_xspeed" value="1.5" />
+     <param name="max_yawspeed" value="0.5" />
+     <param name="max_xdecel" value="0.5" />
+     <param name="max_yawdecel" value="0.5" />
+     <param name="max_xaccel" value="0.5" />
+     <param name="max_yawaccel" value="0.5" />
+     <param name="rot_kp" value="10" />
+     <param name="rot_kv" value="0" />
+     <param name="rot_ki" value="0" />
+     <param name="trans_kp" value="10" />
+     <param name="trans_kv" value="0" />
+     <param name="trans_ki" value="0" />
+
+      <remap from="/cmd_vel" to="/cmd_vel_adj" />
+   </node>
+   
+   <!-- include file="$(find usb_cam)/launch/usb_cam-test.launch" -->
+    <node pkg="rostopic" type="rostopic" name="activate_motor" args="pub /cmd_motor_state p2os_msgs/MotorState 1" output="screen" />
+    
+    
+</launch>
