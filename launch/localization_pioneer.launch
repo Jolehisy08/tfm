@@ -1,10 +1,10 @@
 <launch>
 
     <!--Use simulated time for all nodes to synchronize with the bag file playback-->
-    <!--param name="/use_sim_time" value="true" /-->
+    <param name="/use_sim_time" value="true" />
 
     <!--Include the bring-up launch file to start the Pioneer robot and its sensors-->
-    <include file="$(find pioneer)/launch/bring_upv2.launch" />
+    <!--include file="$(find pioneer)/launch/bring_upv2.launch" /-->
 
     <!--Include the TF configuration for the Pioneer robot-->
     <include file="$(find pioneer)/launch/pioneer_tf.launch" />
@@ -18,6 +18,13 @@
         <param name="use_gui" value="false"/>
     </node>
 
+    
+    <!--Load the odometry reconstruction node to generate odometry data from encoder readings-->
+    <node pkg="pioneer" type="OdomGenerada.py" name="odom_reconstruct" output="screen">
+        <param name="base_link_frame" value="base_link"/>
+        <param name="odom_frame" value="odom"/>
+    </node>
+
     <!--Include the localization node-->
     <include file="$(find pioneer)/launch/hdl_localization_pioneer.launch" >
         <arg name="map_file" value="$(find pioneer)/data/mapa_ull_clean.pcd" />
@@ -28,6 +35,7 @@
     <node pkg="rviz" type="rviz" name="rviz" args="-d $(find pioneer)/rviz/localization_pioneer.rviz" />
 
     <!--Play the recorded bag file to provide sensor data for localization-->
-    <!--node pkg="rosbag" type="play" name="player" args="--clock /home/jolehisy/tfm_datos/bags/pioneer_2026-02-05-11-24-40.bag"-->
+    <node pkg="rosbag" type="play" name="player" args="--clock /home/jolehisy/tfm_datos/bags/pioneer_limpio.bag" />  
+
 
 </launch>
