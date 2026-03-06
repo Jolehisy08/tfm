@@ -25,11 +25,13 @@
         <param name="odom_frame" value="odom"/>
     </node>
 
+    <node pkg="tf2_ros" type="static_transform_publisher" name="map_to_odom_test" args="0 0 0 0 0 0 map odom" />
+
     <!--Include the localization node-->
-    <include file="$(find pioneer)/launch/hdl_localization_pioneer.launch" >
+    <!--include file="$(find pioneer)/launch/hdl_localization_pioneer.launch" >
         <arg name="map_file" value="$(find pioneer)/data/mapa_ull_clean.pcd" />
         <arg name="odom_child_frame_id" value="base_link" />
-    </include>
+    </include-->
 
     <!--Launch RViz with a predefined configuration for visualization-->
     <node pkg="rviz" type="rviz" name="rviz" args="-d $(find pioneer)/rviz/localization_pioneer.rviz" />
