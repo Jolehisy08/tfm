@@ -15,6 +15,6 @@
     </node>
 
     <!--Launch RViz with a predefined configuration for visualization-->
-    <node pkg="rviz" type="rviz" name="rviz" args="-d $(find pioneer)/rviz/costmap.rviz" />
+    <node pkg="rviz" type="rviz" name="rviz" args="-d $(find pioneer)/navigation/rviz/costmap.rviz" />
 
 </launch>

@@ -1,0 +1,15 @@
+# Costmap parameters for the global costmap used in the Pioneer navigation stack. This file defines the configuration for the global costmap,
+global_costmap:
+  global_frame: map
+  robot_base_frame: base_link
+  update_frequency: 1.0
+  publish_frequency: 1.0
+  static_map: true
+  transform_tolerance: 1.0
+  
+  # Plugins used in the global costmap. We have the Static Layer for static obstacles from the map, the Spatio-Temporal Voxel Layer (STVL) for dynamic obstacle handling,
+  # and the Inflation Layer to create a safety buffer around obstacles.
+  plugins:
+    - {name: static_layer,    type: "costmap_2d::StaticLayer"}
+    - {name: stvl_layer,      type: "spatio_temporal_voxel_layer/SpatioTemporalVoxelLayer"}
+    - {name: inflation_layer, type: "costmap_2d::InflationLayer"}

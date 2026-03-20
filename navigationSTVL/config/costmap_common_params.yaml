@@ -1,0 +1,44 @@
+# Body of the Pioneer
+footprint: [[0.25, 0.3], [0.25, -0.3], [-0.25, -0.3], [-0.25, 0.3]]
+
+# STVL Layer
+stvl_layer:
+  enabled: true
+  # How much time (in seconds) a voxel remains occupied after being observed as an obstacle.
+  voxel_decay: 2.0 
+  # Size of each voxel in meters. A smaller voxel size gives a more detailed map but increases memory usage and computation time.
+  voxel_size: 0.05
+  track_unknown_space: true
+  max_obstacle_height: 2.5
+  mark_threshold: 0
+  update_footprint_enabled: true
+  publish_voxel_map: true # To watch the 3D occupancy grid in RViz
+
+  # The lidar sensors we are using to observe the environment. We have two: a Velodyne and an RSLIDAR.
+  observation_sources: velodyne rslidar
+  
+  velodyne:
+    data_type: PointCloud2
+    topic: /velodyne_points
+    marking: true
+    clearing: true
+    min_obstacle_height: 0.15 # Minimum height of obstacles to be considered (in meters)
+    max_obstacle_height: 2.0 # Maximum height of obstacles to be considered (in meters)
+    obstacle_range: 4.0
+    raytrace_range: 4.5
+
+  rslidar:
+    data_type: PointCloud2
+    topic: /rslidar_points
+    marking: true
+    clearing: true
+    min_obstacle_height: 0.15
+    max_obstacle_height: 2.0
+    obstacle_range: 4.0
+    raytrace_range: 4.5
+
+# Inflation layer parameters for the costmap. This layer inflates obstacles to create a buffer zone around them, which helps the robot avoid collisions.
+inflation_layer:
+  enabled: true
+  inflation_radius: 0.55
+  cost_scaling_factor: 10.0
