@@ -1,8 +1,6 @@
 image: /home/jolehisy/tfm_ws/src/pioneer/data/mapa_facultad_2d.pgm
-resolution: 0.20000
-# Ponemos el origen justo en la mitad para que coincida con el centro de Stage
-# Basado en tus pixeles (2656x2496):
-origin: [-33.2, -31.2, 0.0]
+resolution: 0.05
+origin: [-81.7481, -66.6499, 0.0]
 occupied_thresh: 0.65
 free_thresh: 0.196
 negate: 0

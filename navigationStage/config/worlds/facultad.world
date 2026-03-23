@@ -8,7 +8,7 @@ window
   size [ 700.000 700.000 ] # Tamaño de la ventana en tu pantalla
   center [ 0.0 0.0 ]       # Centrar la vista en el origen
   rotate [ 0.0 0.0 ]
-  scale 20                 # ¡Sube esto! Cuanto más alto, más zoom (prueba 30 o 50)
+  scale 20                 
 )
 
 # 2. Definición de Obstáculos
@@ -45,7 +45,7 @@ define pioneer3dx position
   gui_nose 1
   drive "diff"
   
-  hokuyolaser(pose [ 0.15 0.00 -0.10 0.00 ])
+  hokuyolaser(pose [ 0.15 0.00 0.20 0.00 ])
 )
 
 # =========================================================================
@@ -58,8 +58,8 @@ model
   name "muros_facultad"
   obstaculo()
   size [ 132.8 124.8 2.0 ]
-  pose [ 0.0 0.0 0.0 0.0 ]
-  bitmap "/home/jolehisy/tfm_ws/src/pioneer/navigationStage/config/maps/facultad_stage.png"
+  pose [ 0.0 0.0 0.0 0.0 ] 
+  bitmap "/home/jolehisy/tfm_ws/src/pioneer/data/mapa_facultad_limpio.png" 
 )
 
 # El robot sobre el plano
@@ -67,5 +67,5 @@ pioneer3dx
 (
   name "pioneer_virtual"
   color "red"
-  pose [ 0.0 0.0 0.0 0.0 ]
+  pose [ -16.76 -3.48 0.0 0.0 ]
 )

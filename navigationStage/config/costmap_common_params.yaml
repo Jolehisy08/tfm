@@ -32,5 +32,5 @@ stvl_layer:
 # Inflation layer parameters for the costmap. This layer inflates obstacles to create a buffer zone around them, which helps the robot avoid collisions.
 inflation_layer:
   enabled: true
-  inflation_radius: 0.55
+  inflation_radius: 0.25
   cost_scaling_factor: 10.0
