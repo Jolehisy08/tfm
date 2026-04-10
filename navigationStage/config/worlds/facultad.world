@@ -5,10 +5,10 @@
 # 1. Ajustes de la Ventana de Simulación
 window
 (
-  size [ 700.000 700.000 ] # Tamaño de la ventana en tu pantalla
-  center [ 0.0 0.0 ]       # Centrar la vista en el origen
-  rotate [ 0.0 0.0 ]
-  scale 20                 
+  size [ 700 700 ] # Tamaño de la ventana en tu pantalla
+  center [ 0.000 0.000 ]       # Centrar la vista en el origen
+  rotate [ 0.000 0.000 ]
+  scale 20.000                 
 )
 
 # 2. Definición de Obstáculos
@@ -34,18 +34,18 @@ define hokuyolaser ranger
     samples 1080
   )
   color "blue"
-  size [ 0.05 0.05 0.1 ]
+  size [ 0.050 0.050 0.100 ]
 )
 
 # 4. Definición del Robot Pioneer
 define pioneer3dx position
 (
-  size [0.44 0.38 0.22]
-  origin [0 0 0 0]
+  size [0.440 0.380 0.220]
+  origin [0.000 0.000 0.000 0.000]
   gui_nose 1
   drive "diff"
   
-  hokuyolaser(pose [ 0.15 0.00 0.20 0.00 ])
+  hokuyolaser(pose [ 0.150 0.000 0.200 0.000 ])
 )
 
 # =========================================================================
@@ -57,8 +57,8 @@ model
 (
   name "muros_facultad"
   obstaculo()
-  size [ 132.8 124.8 2.0 ]
-  pose [ 0.0 0.0 0.0 0.0 ] 
+  size [ 132.800 124.800 2.000 ]
+  pose [ 0.000 0.000 0.000 0.000 ] 
   bitmap "/home/jolehisy/tfm_ws/src/pioneer/data/mapa_facultad_limpio.png" 
 )
 
@@ -67,5 +67,5 @@ pioneer3dx
 (
   name "pioneer_virtual"
   color "red"
-  pose [ -16.76 -3.48 0.0 0.0 ]
+  pose [ -16.760 -3.480 0.000 0.000 ]
 )
