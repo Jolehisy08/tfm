@@ -4,7 +4,7 @@
     <arg name="points_topic" default="/velodyne_points" />
     <arg name="map_file" default="$(find pioneer)/data/mapa_ull_clean.pcd" />
 
-    <arg name="odom_child_frame_id" default="base_link" />
+    <arg name="odom_child_frame_id" default="odom" />
 
     <arg name="use_imu" default="false" />
     <arg name="invert_imu_acc" default="false" />

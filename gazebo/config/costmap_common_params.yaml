@@ -1,0 +1,33 @@
+# Body of the Pioneer
+footprint: [[0.25, 0.3], [0.25, -0.3], [-0.25, -0.3], [-0.25, 0.3]]
+
+# STVL Layer 
+stvl_layer:
+  enabled: true
+  voxel_decay: 1.0 
+  voxel_size: 0.05
+  track_unknown_space: true
+  max_obstacle_height: 2.5
+  mark_threshold: 0
+  update_footprint_enabled: true
+  publish_voxel_map: true
+
+  # Configuramos el Velodyne como fuente principal
+  observation_sources: velodyne_scan
+  
+  velodyne_scan:
+    data_type: PointCloud2
+    topic: /velodyne_points
+    marking: true
+    clearing: true
+    min_obstacle_height: 0.10   
+    max_obstacle_height: 2.0    
+    obstacle_range: 5.0
+    raytrace_range: 6.0
+    observation_persistence: 0.0 
+
+# Capa de inflación
+inflation_layer:
+  enabled: true
+  inflation_radius: 0.35
+  cost_scaling_factor: 10.0
