@@ -1,0 +1,43 @@
+DWAPlannerROS:
+# Velocidades Máximas y Mínimas
+  max_vel_x: 0.45      # Velocidad lineal máx (m/s)
+  min_vel_x: 0.0       # Se permite parar
+  max_vel_y: 0.0       # 0.0 porque el Pioneer no es holonómico
+  min_vel_y: 0.0
+
+  max_vel_trans: 0.45  # Velocidad de traslación máxima
+  min_vel_trans: 0.1   # Velocidad de traslación mínima 
+  max_vel_theta: 1.0   # Velocidad de rotación máxima (rad/s)
+  min_vel_theta: 0.4   # Velocidad de rotación mínima
+
+# Aceleraciones
+  acc_lim_x: 2.5
+  acc_lim_y: 0.0
+  acc_lim_theta: 3.2
+
+# Tolerancia para llegar a la meta
+  yaw_goal_tolerance: 0.1    # ~5 grados de error
+  xy_goal_tolerance: 0.15    # 15 cm de error
+  latch_xy_goal_tolerance: false
+
+# Simulación de trayectorias (DWA)
+  sim_time: 1.7       # Tiempo que "mira" hacia adelante
+  vx_samples: 20       # Muestras de velocidad lineal
+  vy_samples: 1        # Solo una porque y es 0
+  vth_samples: 40      # Muestras de velocidad angular
+
+# Pesos para la trayectoria (Ajuste fino)
+  path_distance_bias: 32.0   # Peso por seguir la ruta global
+  goal_distance_bias: 24.0   # Peso por acercarse a la meta
+  occdist_scale: 0.01        # Peso por evitar obstáculos
+  forward_point_distance: 0.325
+  stop_time_buffer: 0.2
+  scaling_speed: 0.25
+  max_scaling_factor: 0.2
+
+# Prevención de oscilaciones
+  oscillation_reset_dist: 0.05
+
+# Debug
+  publish_traj_pc : true
+  publish_cost_grid_pc: true
