@@ -1,24 +1,28 @@
-# Base local planner parameters for the Pioneer robot navigation stack.
-# This file defines the parameters for the base local planner, which is responsible for generating local trajectories
-TrajectoryPlannerROS:
-  # The max_vel_x parameter defines the maximum linear velocity in the x direction (forward) that the robot can achieve. 
-  #The min_vel_x parameter defines the minimum linear velocity in the x direction that the robot can achieve. 
-  #The max_vel_theta parameter defines the maximum angular velocity around the z-axis (yaw) that the robot can achieve. 
-  #The min_in_place_vel_theta parameter defines the minimum angular velocity around the z-axis that the robot can achieve when it is not moving forward.
+#This file contains the parameters for the DWA local planner.
+DWAPlannerROS:
+
+# Velocity Limits
   max_vel_x: 0.45
   min_vel_x: 0.1
-  max_vel_theta: 1.0
-  min_in_place_vel_theta: 0.4
+  
+  # So the Pioneer is unidireccional, we don't want lateral velocity
+  max_vel_y: 0.0
+  min_vel_y: 0.0
 
-  # The acc_lim_theta parameter defines the maximum angular acceleration around the z-axis that the robot can achieve. 
-  #The acc_lim_x parameter defines the maximum linear acceleration in the x direction that the robot can achieve. 
-  #The acc_lim_y parameter defines the maximum linear acceleration in the y direction
-  acc_lim_theta: 1.5
+  # Translational velocity limits (X)
+  # It needs to know the minimum velocity to consider a trajectory valid, 
+  min_vel_trans: 0.1
+
+  # --- Rotational velocity limits (Theta) ---
+  max_vel_theta: 1.0
+  min_vel_theta: -1.0 
+
+  # --- Accelerations ---
   acc_lim_x: 0.5
   acc_lim_y: 0.0
+  acc_lim_theta: 1.5
 
-  # holonomic_robot parameter indicates whether the robot is holonomic or not. A holonomic robot can move in any direction without needing to rotate first, 
-  # while a non-holonomic robot must rotate to change its direction of movement. 
-  # Setting this parameter to true will allow the local planner to generate trajectories that take advantage of the robot's holonomic capabilities, 
-  # while setting it to false will restrict the planner to generating trajectories that are suitable for non-holonomic robots.
-  holonomic_robot: false
+    # --- Options ---
+    # sim_time: 1.7       
+    # vx_samples: 10      
+    # vtheta_samples: 20  
