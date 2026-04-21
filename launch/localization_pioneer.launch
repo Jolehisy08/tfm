@@ -1,0 +1,22 @@
+<launch>
+
+    <param name="robot_description" command="$(find xacro)/xacro --inorder $(find p2os_urdf)/defs/pioneer3at.xacro" />
+
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="false" output="screen" />
+
+    <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
+        <param name="use_gui" value="false"/>
+    </node>
+    <!-- OdomGenerada.py is a node that reconstructs the odometry from the base_link frame and the odom frame -->
+    <node pkg="pioneer_tfm" type="OdomGenerada.py" name="odom_reconstruct" output="screen">
+        <param name="base_link_frame" value="base_link"/>
+        <param name="odom_frame" value="odom"/>
+    </node>
+
+    <!-- This launch file includes the hdl_localization_pioneer.launch file, which contains the configuration for the localization using the HDL-SLAM algorithm. -->
+    <include file="$(find pioneer_tfm)/launch/hdl_localization_pioneer.launch" >
+        <arg name="map_file" value="$(find pioneer_tfm)/data/mapa_ull_clean.pcd" />
+        <arg name="odom_child_frame_id" value="base_link" />
+    </include>
+
+    </launch>

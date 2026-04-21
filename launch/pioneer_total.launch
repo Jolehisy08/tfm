@@ -1,0 +1,20 @@
+<launch>
+    <!-- Bring up the pioneer robot -->
+    <include file="$(find pioneer_tfm)/launch/bring_upv2.launch" />
+
+    <!-- Publish transforms -->
+    <include file="$(find pioneer_tfm)/launch/pioneer_tf.launch" />
+    
+    
+    <include file="$(find pioneer_tfm)/launch/localization_pioneer.launch" />
+    
+    <include file="$(find pioneer_tfm)/launch/pioneer_teleop.launch" />
+    
+    <node pkg="rviz" type="rviz" name="rviz_hdl" args="-d $(find pioneer_tfm)/rviz/localization_pioneer.rviz" />
+
+    <!-- Launch the navigation stack with the DWA local planner -->
+    <nclude file="$(find pioneer_tfm)/navigationSTVL-DWA/launch/navigationPioneer.launch" />
+
+   <node pkg="rviz" type="rviz" name="rviz_costmap" args="-d $(find pioneer_tfm)/rviz/costmap.rviz" />
+
+    </launch>

@@ -1,0 +1,16 @@
+<launch>
+  <node name="map_server" pkg="map_server" type="map_server" args="$(find pioneer_tfm)/data/mapa_facultad_2d.yaml" />
+
+  <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
+    
+    <rosparam file="$(find pioneer)/navigationSTVL/config/costmap_common_params.yaml" command="load" ns="global_costmap" /> 
+    <rosparam file="$(find pioneer)/navigationSTVL/config/costmap_common_params.yaml" command="load" ns="local_costmap" />
+    
+    <rosparam file="$(find pioneer)/navigationSTVL/config/local_costmap_params.yaml" command="load" />
+    
+    <rosparam file="$(find pioneer)/navigationSTVL/config/global_costmap_params.yaml" command="load" /> 
+    
+    <rosparam file="$(find pioneer)/navigationSTVL/config/base_local_planner_params.yaml" command="load" />
+
+  </node>
+</launch>

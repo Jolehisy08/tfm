@@ -1,0 +1,35 @@
+# Common parameters for costmap_2d used by both the local and global costmaps.
+
+  obstacle_range: 2.5
+  raytrace_range: 3.0
+
+  # Information about the robot's footprint. The footprint is used to determine which cells in the costmap are occupied by the robot. It can be specified as a list of points (x, y) 
+  # that define the vertices of the robot's footprint polygon, or as a radius if the robot is circular.  
+  footprint: [[0.25, 0.3], [0.25, -0.3], [-0.25, -0.3], [-0.25, 0.3]]
+  # robot_radius: ir_of_robot
+
+  # The inflation radius is the distance around an obstacle that will be marked as occupied in the costmap. This helps to create a buffer zone around obstacles to prevent the 
+  # robot from getting too close. The value should be chosen based on the size of the robot and the desired safety margin.
+  inflation_radius: 0.55
+
+  #observation_sources: A list of sensors that will be used to update the costmap. Each sensor must be defined with its own parameters, including 
+  # the sensor frame, data type, topic name, and whether it should be used for marking and clearing obstacles in the costmap.
+  observation_sources: velodyne_sensor rslidar_sensor
+
+  # Parameters for each sensor used in the observation_sources list. Each sensor must be defined with its own parameters, including the sensor frame, data type, 
+  # topic name, and whether it should be used for marking and clearing obstacles in the costmap.
+  velodyne_sensor:
+    sensor_frame: velodyne
+    data_type: PointCloud2
+    topic: /velodyne_points 
+    marking: true 
+    clearing: true
+
+
+# Configuration for the rslidar sensor, which is used to update the costmap. This sensor view the floor, so it can be used to detect low-lying obstacles that may not be visible to other sensors. 
+  rslidar_sensor:
+    sensor_frame: rslidar    
+    data_type: PointCloud2 
+    topic: /rslidar_points
+    marking: true 
+    clearing: true

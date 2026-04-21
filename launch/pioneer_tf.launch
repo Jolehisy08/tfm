@@ -1,0 +1,14 @@
+<launch>
+<node pkg="tf2_ros" type="static_transform_publisher" name="base2velodyne" args="0.185 0 0.75 0.0 0.0  0.0 base_link velodyne" />
+
+<node pkg="tf2_ros" type="static_transform_publisher" name="base2pearl" args="0.25  0 0.335 3.14152 -1.62 0.1 base_link rslidar" />
+
+   <!-- node pkg="sensor_filters" type="pointcloud2_filter_chain" output="screen" name="pointcloud2_filters">
+        <remap from="~input" to="/rsHelios_points" />
+        <remap from="~output" to="/rsHelios_filtered" />
+        
+        <rosparam command="load" file="$(find pioneer_launch)/launch/navegacionstvl/filter_tf_config.yaml" />
+        
+    </node-->
+
+</launch>
