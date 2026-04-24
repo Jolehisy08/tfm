@@ -1,6 +1,7 @@
 <launch>
     <!-- Bring up the pioneer robot -->
-    <include file="$(find pioneer_tfm)/launch/bring_upv2.launch" />
+    <!--include file="$(find pioneer_tfm)/launch/bring_upv2.launch" /-->
+    <param name="/use_sim_time" value="true" />
 
     <!-- Publish transforms -->
     <include file="$(find pioneer_tfm)/launch/pioneer_tf.launch" />
@@ -8,7 +9,7 @@
     
     <include file="$(find pioneer_tfm)/launch/localization_pioneer.launch" />
     
-    <include file="$(find pioneer_tfm)/launch/pioneer_teleop.launch" />
+    <!--include file="$(find pioneer_tfm)/launch/pioneer_teleop.launch" /-->
     
     <node pkg="rviz" type="rviz" name="rviz_hdl" args="-d $(find pioneer_tfm)/rviz/localization_pioneer.rviz" />
 
