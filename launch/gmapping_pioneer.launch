@@ -7,9 +7,11 @@
       <remap from="cloud_in" to="/velodyne_points"/>
       <remap from="scan" to="/scan_from_3d"/>
       <rosparam>
-          target_frame: velodyne  transform_tolerance: 0.01
+          target_frame: velodyne
+          transform_tolerance: 0.01
           min_height: 0.0
-          max_height: 1.0  angle_min: -3.141516
+          max_height: 1.0
+          angle_min: -3.141516
           angle_max: 3.141516
           angle_increment: 0.0087
           scan_time: 0.1
@@ -74,6 +76,14 @@
       <param name="init_pos_y" value="0.0" />
       <param name="init_pos_z" value="0.0" />
   </node>
+
+  <!--Launch RViz with a predefined configuration for visualization-->
+    <node pkg="rviz" type="rviz" name="rviz" args="-d $(find pioneer_tfm)/rviz/localization_pioneer.rviz" />
+
+    <!--Play the recorded bag file to provide sensor data for localization-->
+    <node pkg="rosbag" type="play" name="player" args="--clock /home/jolehisy/tfm_datos/pioneer_2026-02-05-11-24-40.bag" />  
+
+
 </launch>
 
 
