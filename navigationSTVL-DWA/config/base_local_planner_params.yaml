@@ -1,30 +1,37 @@
-#This file contains the parameters for the DWA local planner.
-DWAPlannerROS:
+base_local_planner:
+  DWAPlannerROS:
 
-# Velocity Limits
-  max_vel_x: 0.45
-  min_vel_x: 0.1
-  
-  # So the Pioneer is unidireccional, we don't want lateral velocity
-  max_vel_y: 0.0
-  min_vel_y: 0.0
+    # --- Velocity Limits ---
+    max_vel_x: 0.45
+    min_vel_x: 0.1
+    max_vel_y: 0.0
+    min_vel_y: 0.0
 
-  # Translational velocity limits (X)
-  # It needs to know the minimum velocity to consider a trajectory valid, 
-  min_vel_trans: 0.1
+    min_vel_trans: 0.1
 
-  # --- Rotational velocity limits (Theta) ---
-  max_vel_theta: 2.0
-  min_vel_theta: -2.0 
+    # --- Rotational velocity ---
+    max_vel_theta: 2.0
+    min_vel_theta: -2.0 
 
-  # --- Accelerations ---
-  acc_lim_x: 0.5
-  acc_lim_y: 0.0
-  acc_lim_theta: 1.5
-  
-  #controller_frequency: 5.0
+    # --- Accelerations ---
+    acc_lim_x: 0.5
+    acc_lim_y: 0.0
+    acc_lim_theta: 1.5
 
-    # --- Options ---
-  sim_time: 3.0      
-    # vx_samples: 10      
-    # vtheta_samples: 20  
+    # --- Simulation ---
+    sim_time: 1.5
+    vx_samples: 20
+    vtheta_samples: 40
+
+    # --- Cost function tuning (CLAVE) ---
+    path_distance_bias: 20.0
+    goal_distance_bias: 15.0
+    occdist_scale: 0.8
+
+    # --- Goal tolerances ---
+    xy_goal_tolerance: 0.2
+    yaw_goal_tolerance: 0.2
+    latch_xy_goal_tolerance: false
+
+    # Mejora el comportamiento al esquivar
+    forward_point_distance: 0.3
