@@ -11,6 +11,8 @@
     <rosparam file="$(find pioneer_tfm)/navigationSTVL-DWA/config/global_costmap_params.yaml" command="load" /> 
     
     <rosparam file="$(find pioneer_tfm)/navigationSTVL-DWA/config/base_local_planner_params.yaml" command="load" />
+    
+    <param name="controller_frequency" value="3.0" />
 
   </node>
 </launch>

@@ -25,7 +25,7 @@
      <param name="trans_ki" value="0" />
 
 
-      <remap from="/cmd_vel" to="/cmd_vel_adj" />
+      <!--remap from="/cmd_vel" to="/cmd_vel_adj" /-->
      
 
    </node>

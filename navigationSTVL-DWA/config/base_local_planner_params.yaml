@@ -14,15 +14,17 @@ DWAPlannerROS:
   min_vel_trans: 0.1
 
   # --- Rotational velocity limits (Theta) ---
-  max_vel_theta: 1.0
-  min_vel_theta: -1.0 
+  max_vel_theta: 2.0
+  min_vel_theta: -2.0 
 
   # --- Accelerations ---
   acc_lim_x: 0.5
   acc_lim_y: 0.0
   acc_lim_theta: 1.5
+  
+  #controller_frequency: 5.0
 
     # --- Options ---
-    # sim_time: 1.7       
+  sim_time: 3.0      
     # vx_samples: 10      
     # vtheta_samples: 20  

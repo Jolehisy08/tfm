@@ -1,7 +1,7 @@
 <launch>
     <!-- Bring up the pioneer robot -->
-    <!--include file="$(find pioneer_tfm)/launch/bring_upv2.launch" /-->
-    <param name="/use_sim_time" value="true" />
+    <include file="$(find pioneer_tfm)/launch/bring_upv2.launch" />
+    <!--param name="/use_sim_time" value="true" /-->
 
     <!-- Publish transforms -->
     <include file="$(find pioneer_tfm)/launch/pioneer_tf.launch" />
@@ -16,6 +16,6 @@
     <!-- Launch the navigation stack with the DWA local planner -->
     <include file="$(find pioneer_tfm)/navigationSTVL-DWA/launch/navigationPioneer.launch" />
 
-   <node pkg="rviz" type="rviz" name="rviz_costmap" args="-d $(find pioneer_tfm)/rviz/costmap.rviz" />
+   <!--node pkg="rviz" type="rviz" name="rviz_costmap" args="-d $(find pioneer_tfm)/rviz/costmap.rviz" /-->
 
     </launch>
