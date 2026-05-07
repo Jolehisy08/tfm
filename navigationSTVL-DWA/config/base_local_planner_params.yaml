@@ -34,4 +34,4 @@ base_local_planner:
     latch_xy_goal_tolerance: false
 
     # Mejora el comportamiento al esquivar
-    forward_point_distance: 0.3
+    #forward_point_distance: 0.3

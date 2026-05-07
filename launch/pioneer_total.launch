@@ -11,11 +11,11 @@
     
     <!--include file="$(find pioneer_tfm)/launch/pioneer_teleop.launch" /-->
     
-    <node pkg="rviz" type="rviz" name="rviz_hdl" args="-d $(find pioneer_tfm)/rviz/localization_pioneer.rviz" />
+    <!--node pkg="rviz" type="rviz" name="rviz_hdl" args="-d $(find pioneer_tfm)/rviz/localization_pioneer.rviz" /-->
 
     <!-- Launch the navigation stack with the DWA local planner -->
     <include file="$(find pioneer_tfm)/navigationSTVL-DWA/launch/navigationPioneer.launch" />
 
-   <!--node pkg="rviz" type="rviz" name="rviz_costmap" args="-d $(find pioneer_tfm)/rviz/costmap.rviz" /-->
+   <node pkg="rviz" type="rviz" name="rviz_costmap" args="-d $(find pioneer_tfm)/rviz/costmap.rviz" />
 
     </launch>
