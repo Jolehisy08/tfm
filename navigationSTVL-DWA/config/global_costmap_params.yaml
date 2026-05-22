@@ -1,4 +1,4 @@
-  global_costmap:
+ global_costmap:
 
     global_frame: map
     robot_base_frame: base_link
@@ -8,6 +8,11 @@
 
     static_map: true
     transform_tolerance: 5.0
+    
+    inflation_layer:
+      enabled: true
+      inflation_radius: 0.2
+      cost_scaling_factor: 5.0
 
     plugins:
       - {name: static_layer,    type: "costmap_2d::StaticLayer"}

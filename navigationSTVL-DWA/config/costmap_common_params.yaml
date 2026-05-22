@@ -1,30 +1,41 @@
-common:
+footprint: [[0.25, 0.3], [0.25, -0.3], [-0.25, -0.3], [-0.25, 0.3]]
 
-  footprint: [[0.25, 0.3], [0.25, -0.3], [-0.25, -0.3], [-0.25, 0.3]]
+stvl_layer:
+  enabled: true
+  voxel_decay: 0.5
+  voxel_size: 0.1
+  track_unknown_space: true
+  max_obstacle_height: 2.5
+  mark_threshold: 1.0
+  update_footprint_enabled: true
+  publish_voxel_map: true
+  combination_method: 1
+  mapping_mode: false
+    
 
-  stvl_layer:
-    enabled: true
-    voxel_decay: 0.5
-    voxel_size: 0.05
-    track_unknown_space: true
-    max_obstacle_height: 2.5
-    mark_threshold: 0
-    update_footprint_enabled: true
-    publish_voxel_map: true
+  observation_sources: velodyne
 
-    observation_sources: velodyne
+  velodyne:
+    data_type: PointCloud2
+    topic: /velodyne_points
+    marking: true
+    clearing: true
+    min_obstacle_height: 0.4
+    max_obstacle_height: 2.0
+    obstacle_range: 5.0
+    raytrace_range: 5.0
+    
+  rslidar:
+    data_type: PointCloud2
+    topic: /rslidar_points
+    marking: true
+    clearing: true
+    min_obstacle_height: 0.1
+    max_obstacle_height: 2.0
+    obstacle_range: 5.0
+    raytrace_range: 5.0
 
-    velodyne:
-      data_type: PointCloud2
-      topic: /velodyne_points
-      marking: true
-      clearing: true
-      min_obstacle_height: 0.15
-      max_obstacle_height: 2.0
-      obstacle_range: 5.0
-      raytrace_range: 5.0
-
-  inflation_layer:
-    enabled: true
-    inflation_radius: 0.2
-    cost_scaling_factor: 3.0
+inflation_layer:
+  enabled: true
+  inflation_radius: 0.2
+  cost_scaling_factor: 5.0
