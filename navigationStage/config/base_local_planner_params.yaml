@@ -1,24 +1,41 @@
-# Base local planner parameters for the Pioneer robot navigation stack.
-# This file defines the parameters for the base local planner, which is responsible for generating local trajectories
-TrajectoryPlannerROS:
-  # The max_vel_x parameter defines the maximum linear velocity in the x direction (forward) that the robot can achieve. 
-  #The min_vel_x parameter defines the minimum linear velocity in the x direction that the robot can achieve. 
-  #The max_vel_theta parameter defines the maximum angular velocity around the z-axis (yaw) that the robot can achieve. 
-  #The min_in_place_vel_theta parameter defines the minimum angular velocity around the z-axis that the robot can achieve when it is not moving forward.
-  max_vel_x: 0.45
-  min_vel_x: 0.1
-  max_vel_theta: 1.0
-  min_in_place_vel_theta: 0.4
+base_local_planner:
+  DWAPlannerROS:
 
-  # The acc_lim_theta parameter defines the maximum angular acceleration around the z-axis that the robot can achieve. 
-  #The acc_lim_x parameter defines the maximum linear acceleration in the x direction that the robot can achieve. 
-  #The acc_lim_y parameter defines the maximum linear acceleration in the y direction
-  acc_lim_theta: 1.5
-  acc_lim_x: 0.5
-  acc_lim_y: 0.0
+    # --- Velocity Limits ---
+    max_vel_x: 0.5
+    min_vel_x: -0.5
+    max_vel_y: 0.0
+    min_vel_y: 0.0
+    max_trans_vel: 0.5
+    min_trans_vel: 0.10
 
-  # holonomic_robot parameter indicates whether the robot is holonomic or not. A holonomic robot can move in any direction without needing to rotate first, 
-  # while a non-holonomic robot must rotate to change its direction of movement. 
-  # Setting this parameter to true will allow the local planner to generate trajectories that take advantage of the robot's holonomic capabilities, 
-  # while setting it to false will restrict the planner to generating trajectories that are suitable for non-holonomic robots.
-  holonomic_robot: false
+    min_vel_trans: 0.1
+
+    # --- Rotational velocity ---
+    max_vel_theta: 2.0
+    min_vel_theta: -2.0
+    max_rot_vel: 0.86
+    min_rot_vel: 0.2
+
+    # --- Accelerations ---
+    acc_lim_x: 1.0
+    acc_lim_y: 0.0
+    acc_lim_theta: 1.0
+
+    # --- Simulation ---
+    sim_time: 1.7
+    vx_samples: 10
+    vtheta_samples: 30
+
+    # --- Cost function tuning (CLAVE) ---
+    path_distance_bias: 16.0
+    goal_distance_bias: 24.0
+    occdist_scale: 1.0
+
+    # --- Goal tolerances ---
+    xy_goal_tolerance: 0.15
+    yaw_goal_tolerance: 0.2
+    latch_xy_goal_tolerance: false
+
+    # Mejora el comportamiento al esquivar
+    #forward_point_distance: 0.3
