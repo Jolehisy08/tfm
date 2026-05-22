@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <package format="2">
-  <name>pioneer</name>
+  <name>pioneer_tfm</name>
   <version>0.0.0</version>
-  <description>The ioneer package</description>
+  <description>The Pioneer package</description>
 
   <!-- One maintainer tag required, multiple allowed, one person per tag -->
   <!-- Example:  -->

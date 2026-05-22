@@ -1,11 +1,11 @@
 <launch>
     <param name="/use_sim_time" value="true"/>
 
-    <node pkg="stage_ros" type="stageros" name="stageros" args="$(find pioneer)/navigationStage/config/worlds/facultad.world" output="screen" />
+    <node pkg="stage_ros" type="stageros" name="stageros" args="$(find pioneer_tfm)/navigationStage/config/worlds/facultad.world" output="screen" />
 
     <node pkg="tf2_ros" type="static_transform_publisher" name="fake_localization" args="0 0 0 0 0 0 map odom" />
 
-    <include file="$(find pioneer)/launch/pioneer_tf.launch" />
+    <include file="$(find pioneer_tfm)/launch/pioneer_tf.launch" />
     <node pkg="tf2_ros" type="static_transform_publisher" name="base_to_laser_sim" args="0.15 0 0.1 0 0 0 base_link base_laser_link" />
     <param name="robot_description" command="$(find xacro)/xacro --inorder $(find p2os_urdf)/defs/pioneer3at.xacro" />
     <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="false" output="screen" />
@@ -13,19 +13,19 @@
         <param name="use_gui" value="false"/>
     </node>
     
-    <node name="map_server_2d" pkg="map_server" type="map_server" args="$(find pioneer)/navigationStage/config/maps/mapa_facultad_stage.yaml" />
+    <node name="map_server_2d" pkg="map_server" type="map_server" args="$(find pioneer_tfm)/navigationStage/config/maps/mapa_facultad_stage.yaml" />
 
     <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
         <param name="controller_frequency" value="5.0" />
         <param name="planner_frequency" value="1.0" />
         
-        <rosparam file="$(find pioneer)/navigationStage/config/costmap_common_params.yaml" command="load" ns="global_costmap" /> 
-        <rosparam file="$(find pioneer)/navigationStage/config/costmap_common_params.yaml" command="load" ns="local_costmap" />
-        <rosparam file="$(find pioneer)/navigationStage/config/local_costmap_params.yaml" command="load" />
-        <rosparam file="$(find pioneer)/navigationStage/config/global_costmap_params.yaml" command="load" /> 
-        <rosparam file="$(find pioneer)/navigationStage/config/base_local_planner_params.yaml" command="load" />
+        <rosparam file="$(find pioneer_tfm)/navigationStage/config/costmap_common_params.yaml" command="load" ns="global_costmap" /> 
+        <rosparam file="$(find pioneer_tfm)/navigationStage/config/costmap_common_params.yaml" command="load" ns="local_costmap" />
+        <rosparam file="$(find pioneer_tfm)/navigationStage/config/local_costmap_params.yaml" command="load" />
+        <rosparam file="$(find pioneer_tfm)/navigationStage/config/global_costmap_params.yaml" command="load" /> 
+        <rosparam file="$(find pioneer_tfm)/navigationStage/config/base_local_planner_params.yaml" command="load" />
     </node>
 
-    <node pkg="rviz" type="rviz" name="rviz" args="-d $(find pioneer)/navigationStage/rviz/costmap.rviz" />
+    <node pkg="rviz" type="rviz" name="rviz" args="-d $(find pioneer_tfm)/navigationStage/rviz/costmap.rviz" />
 
 </launch>

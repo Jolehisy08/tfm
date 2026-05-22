@@ -59,7 +59,7 @@ model
   obstaculo()
   size [ 132.800 124.800 2.000 ]
   pose [ 0.000 0.000 0.000 0.000 ] 
-  bitmap "/home/jolehisy/tfm_ws/src/pioneer/data/mapa_facultad_limpio.png" 
+  bitmap "/home/jolehisy/tfm_ws/src/pioneer_tfm/data/mapa_facultad_2d.png" 
 )
 
 # El robot sobre el plano
