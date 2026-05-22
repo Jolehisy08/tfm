@@ -57,9 +57,9 @@ model
 (
   name "muros_facultad"
   obstaculo()
-  size [ 132.800 124.800 2.000 ]
+  size [ 60.03 122.42 2.000 ]
   pose [ 0.000 0.000 0.000 0.000 ] 
-  bitmap "/home/jolehisy/tfm_ws/src/pioneer_tfm/data/mapa_facultad_2d.png" 
+  bitmap "/home/jolehisy/tfm_ws/src/pioneer_tfm/data/mapa_facultad_2dHDL_limpio.pgm" 
 )
 
 # El robot sobre el plano
@@ -67,5 +67,5 @@ pioneer3dx
 (
   name "pioneer_virtual"
   color "red"
-  pose [ -16.760 -3.480 0.000 0.000 ]
+  pose [ -13.52 -3.83 0.000 0.000 ]
 )
