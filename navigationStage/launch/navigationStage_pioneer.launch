@@ -1,50 +1,78 @@
 <launch>
+    <!-- ========================================================== -->
+    <!-- 1. ARGUMENTOS DE CONFIGURACIÓN (Cabecera Principal)        -->
+    <!-- ========================================================== -->
+
+    <!-- Rutas a los archivos (Más limpio y fácil de cambiar) -->
+    <arg name="map_file"    default="$(find pioneer_tfm)/navigationStage/config/maps/mapa_facultad_stage.yaml"/>
+    <arg name="world_file"  default="$(find pioneer_tfm)/navigationStage/config/worlds/facultad.world"/>
+    <arg name="rviz_config" default="$(find pioneer_tfm)/navigationStage/rviz/costmap.rviz"/>
+
+    <!-- ========================================================== -->
+    <!-- 2. PARÁMETROS GLOBALES                                     -->
+    <!-- ========================================================== -->
     <param name="/use_sim_time" value="true"/>
 
-    <!-- AÑADIDO: Remapeo de base_scan a scan para que AMCL reciba los datos del láser de Stage -->
-    <node pkg="stage_ros" type="stageros" name="stageros" args="$(find pioneer_tfm)/navigationStage/config/worlds/facultad.world" output="screen">
+    <!-- ========================================================== -->
+    <!-- 3. MAP SERVER                                              -->
+    <!-- ========================================================== -->
+    <node pkg="map_server" type="map_server" name="map_server" output="screen" args="$(arg map_file)">
+        <param name="frame_id" value="map"/>
+    </node>
+
+    <!-- ========================================================== -->
+    <!-- 4. STAGE SIMULATOR                                         -->
+    <!-- ========================================================== -->
+    <node pkg="stage_ros" type="stageros" name="stageros" args="$(arg world_file)" output="screen">
+        <param name="base_watchdog_timeout" value="0.5"/>
         <remap from="base_scan" to="scan"/>
     </node>
 
-    <!-- ELIMINADO: El static_transform_publisher 'fake_localization' de map a odom. 
-         AMCL se encargará de hacer esa unión ahora. -->
-
-    <include file="$(find pioneer_tfm)/launch/pioneer_tf.launch" />
-    <node pkg="tf2_ros" type="static_transform_publisher" name="base_to_laser_sim" args="0.15 0 0.1 0 0 0 base_link base_laser_link" />
-    
+    <!-- ========================================================== -->
+    <!-- 5. INTEGRACIÓN DEL ROBOT (Modelo, URDF y TFs)              -->
+    <!-- ========================================================== -->
     <param name="robot_description" command="$(find xacro)/xacro --inorder $(find p2os_urdf)/defs/pioneer3at.xacro" />
     <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="false" output="screen" />
     <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
         <param name="use_gui" value="false"/>
     </node>
-    
+
+    <!-- Tus TFs personalizadas para los sensores -->
+    <include file="$(find pioneer_tfm)/launch/pioneer_tf.launch" />
+
+    <!-- ========================================================== -->
+    <!-- 6. LOCALIZACIÓN (AMCL)                                     -->
+    <!-- ========================================================== -->
     <node pkg="amcl" type="amcl" name="amcl" output="screen">
-        <!-- Frames: odom, base_link y el frame global 'map' -->
+        <!-- Frames -->
         <param name="odom_frame_id" value="odom"/>
         <param name="base_frame_id" value="base_link"/>
         <param name="global_frame_id" value="map"/>
         
-        <!-- Parámetros del escáner: alcance máximo y número de beams a procesar -->
+        <!-- Parámetros del escáner -->
         <param name="laser_max_range" value="20.0"/>
         <param name="laser_max_beams" value="30"/>
-        <!-- Remapeo explícito para asegurarnos de que AMCL lea de /scan -->
         <remap from="scan" to="scan"/>
     </node>
 
-    <node name="map_server_2d" pkg="map_server" type="map_server" args="$(find pioneer_tfm)/navigationStage/config/maps/mapa_facultad_stage.yaml" />
-
+    <!-- ========================================================== -->
+    <!-- 7. NAVEGACIÓN (Move Base)                                  -->
+    <!-- ========================================================== -->
     <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
         <param name="controller_frequency" value="5.0" />
         <param name="planner_frequency" value="1.0" />
-        
-        <rosparam file="$(find pioneer_tfm)/navigationStage/config/costmap_common_params.yaml" command="load" ns="global_costmap" /> 
-        <rosparam file="$(find pioneer_tfm)/navigationStage/config/costmap_common_params.yaml" command="load" ns="local_costmap" />
-        <rosparam file="$(find pioneer_tfm)/navigationStage/config/local_costmap_params.yaml" command="load" />
-        <rosparam file="$(find pioneer_tfm)/navigationStage/config/global_costmap_params.yaml" command="load" /> 
-        <rosparam file="$(find pioneer_tfm)/navigationStage/config/base_local_planner_params.yaml" command="load" />
-        
+        <param name="base_local_planner" value="dwa_local_planner/DWAPlannerROS"/>
+
+        <rosparam file="$(find pioneer_tfm)/navigationStage/config/costmap_common_params_pioneer.yaml" command="load" ns="global_costmap" /> 
+        <rosparam file="$(find pioneer_tfm)/navigationStage/config/costmap_common_params_pioneer.yaml" command="load" ns="local_costmap" />
+        <rosparam file="$(find pioneer_tfm)/navigationStage/config/local_costmap_params_pioneer.yaml" command="load" />
+        <rosparam file="$(find pioneer_tfm)/navigationStage/config/global_costmap_params_pioneer.yaml" command="load" /> 
+        <rosparam file="$(find pioneer_tfm)/navigationStage/config/dwa_local_planner_params.yaml" command="load" />
     </node>
 
-    <node pkg="rviz" type="rviz" name="rviz" args="-d $(find pioneer_tfm)/navigationStage/rviz/costmap.rviz" />
+    <!-- ========================================================== -->
+    <!-- 8. VISUALIZACIÓN (RViz)                                    -->
+    <!-- ========================================================== -->
+    <node pkg="rviz" type="rviz" name="rviz" args="-d $(arg rviz_config)" />
 
 </launch>

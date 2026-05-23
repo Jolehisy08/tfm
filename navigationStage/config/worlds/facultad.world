@@ -69,3 +69,15 @@ pioneer3dx
   color "red"
   pose [ -13.52 -3.83 0.000 0.000 ]
 )
+
+define caja model
+(
+  size [0.500 0.500 0.500] # Tamaño en metros (X Y Z)
+  gui_nose 0
+  color "red"
+  boundary 1
+  obstacle 1         # Esto hace que el láser lo detecte
+)
+
+caja( pose [ -8.6465 -2.8557 0.0 0.00 ] name "obstaculo_dinamico" )
+
