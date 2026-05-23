@@ -1,0 +1,46 @@
+#---standard pioneer footprint (in meters)---
+footprint: [ [0.3302, -0.0508], [0.254, -0.0508], [0.254, -0.254], [-0.254, -0.254], [-0.254, 0.254], [0.254, 0.254], [0.254, 0.0508], [0.3302, 0.0508] ]
+
+stvl_layer:
+  enabled: true
+  voxel_decay: 0.2           
+  voxel_size: 0.05          
+  track_unknown_space: true
+  max_obstacle_height: 2.0
+  mark_threshold: 0          
+  update_footprint_enabled: true
+  publish_voxel_map: true
+  combination_method: 1
+  mapping_mode: false
+  observation_sources: velodyne rslidar
+
+  velodyne:
+    data_type: PointCloud2
+    topic: /velodyne_points
+    sensor_frame: velodyne
+    marking: true
+    clearing: true
+    min_obstacle_height: 0.4
+    max_obstacle_height: 2.0
+    obstacle_range: 10.0   
+    raytrace_range: 15.0   
+    
+  rslidar:
+    data_type: PointCloud2
+    topic: /rslidar_points
+    sensor_frame: rslidar
+    marking: true
+    clearing: true
+    min_obstacle_height: 0.01
+    max_obstacle_height: 0.6
+    obstacle_range: 10.0   
+    raytrace_range: 15.0   
+
+#cost_scaling_factor and inflation_radius were now moved to the inflation_layer ns
+inflation_layer:
+  enabled:              true
+  cost_scaling_factor:  10.0  # exponential rate at which the obstacle cost drops off (default: 10)
+  inflation_radius:     0.3  # max. distance from an obstacle at which costs are incurred for planning paths.
+
+static_layer:
+  enabled:              true
