@@ -3,8 +3,8 @@ footprint: [ [0.3302, -0.0508], [0.254, -0.0508], [0.254, -0.254], [-0.254, -0.2
 
 stvl_layer:
   enabled: true
-  voxel_decay: 1.0           
-  voxel_size: 0.1            
+  voxel_decay: 0.2           
+  voxel_size: 0.05          
   track_unknown_space: true
   max_obstacle_height: 2.0
   mark_threshold: 0          
@@ -23,13 +23,13 @@ stvl_layer:
       min_obstacle_height: -0.1
       max_obstacle_height: 2.0
       obstacle_range: 10.0           
-      raytrace_range: 5.0
+      raytrace_range: 15.0
 
 #cost_scaling_factor and inflation_radius were now moved to the inflation_layer ns
 inflation_layer:
   enabled:              true
-  cost_scaling_factor:  15.0  # exponential rate at which the obstacle cost drops off (default: 10)
-  inflation_radius:     1.0  # max. distance from an obstacle at which costs are incurred for planning paths.
+  cost_scaling_factor:  10.0  # exponential rate at which the obstacle cost drops off (default: 10)
+  inflation_radius:     0.3  # max. distance from an obstacle at which costs are incurred for planning paths.
 
 static_layer:
   enabled:              true

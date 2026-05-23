@@ -7,7 +7,7 @@ window
 (
   size [ 700 700 ] # Tamaño de la ventana en tu pantalla
   center [ 0.000 0.000 ]       # Centrar la vista en el origen
-  rotate [ 0.000 0.000 ]
+  rotate [ 22.500 -44.500 ]
   scale 20.000                 
 )
 
@@ -57,7 +57,7 @@ model
 (
   name "muros_facultad"
   obstaculo()
-  size [ 60.03 122.42 2.000 ]
+  size [ 60.030 122.420 2.000 ]
   pose [ 0.000 0.000 0.000 0.000 ] 
   bitmap "/home/jolehisy/tfm_ws/src/pioneer_tfm/data/mapa_facultad_2dHDL_limpio.pgm" 
 )
@@ -67,7 +67,7 @@ pioneer3dx
 (
   name "pioneer_virtual"
   color "red"
-  pose [ -13.52 -3.83 0.000 0.000 ]
+  pose [ -13.232 -0.625 0.000 174.021 ]
 )
 
 define caja model
@@ -79,5 +79,60 @@ define caja model
   obstacle 1         # Esto hace que el láser lo detecte
 )
 
-caja( pose [ -8.6465 -2.8557 0.0 0.00 ] name "obstaculo_dinamico" )
+caja( pose [ -12.246 -0.406 0.000 0.000 ] name "obstaculo_dinamico" )
+
+define caja model
+(
+  size [0.500 0.500 0.500] # Tamaño en metros (X Y Z)
+  gui_nose 0
+  color "red"
+  boundary 1
+  obstacle 1         # Esto hace que el láser lo detecte
+)
+
+caja( pose [ -1.897 -4.506 0.000 0.000 ] name "obstaculo_dinamico2" )
+
+define caja model
+(
+  size [0.500 0.500 0.500] # Tamaño en metros (X Y Z)
+  gui_nose 0
+  color "red"
+  boundary 1
+  obstacle 1         # Esto hace que el láser lo detecte
+)
+
+caja( pose [ -7.646 -2.856 0.000 0.000 ] name "obstaculo_dinamico2" )
+
+define caja model
+(
+  size [0.500 0.500 0.500] # Tamaño en metros (X Y Z)
+  gui_nose 0
+  color "red"
+  boundary 1
+  obstacle 1         # Esto hace que el láser lo detecte
+)
+
+caja( pose [ -7.646 -2.856 0.000 0.000 ] name "obstaculo_dinamico2" )
+
+define caja model
+(
+  size [0.500 0.500 0.500] # Tamaño en metros (X Y Z)
+  gui_nose 0
+  color "red"
+  boundary 1
+  obstacle 1         # Esto hace que el láser lo detecte
+)
+
+caja( pose [ -7.646 -2.856 0.000 0.000 ] name "obstaculo_dinamico2" )
+
+define caja model
+(
+  size [0.500 0.500 0.500] # Tamaño en metros (X Y Z)
+  gui_nose 0
+  color "red"
+  boundary 1
+  obstacle 1         # Esto hace que el láser lo detecte
+)
+
+caja( pose [ -7.646 -2.856 0.000 0.000 ] name "obstaculo_dinamico2" )
 
