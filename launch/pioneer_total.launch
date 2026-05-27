@@ -1,22 +1,28 @@
 <launch>
-    <!-- Bring up the pioneer robot -->
+    <!-- Incluye el lanzamiento principal de bring_upv2, que pone en marcha los nodos básicos del robot. -->
     <include file="$(find pioneer_tfm)/launch/bring_upv2.launch" />
-    <!--param name="/use_sim_time" value="true" /-->
 
-    <!-- Publish transforms -->
+    <!-- Incluye la configuración de TF del robot, definiendo los marcos de referencia principales. -->
     <include file="$(find pioneer_tfm)/launch/pioneer_tf.launch" />
-    
+
+    <!-- Incluye el nodo de lectura serial del IMU ICM-20948 desde el paquete stm32IMU. -->
+    <include file="$(find stm32IMU)/launch/icm-20948_serial_node.launch" />
+
+    <!-- Nodo de fusión de sensores EKF de robot_localization. Carga los parámetros desde ekf.yaml. -->
+    <node pkg="robot_localization" type="ekf_localization_node" name="ekf_se" clear_params="true">
+        <rosparam command="load" file="$(find pioneer_tfm)/config/ekf.yaml" />
+    </node>
+
+    <!-- Nodo propio de control del robot: ejecuta la lógica de RobotControl.py. -->
     <node pkg="pioneer_tfm" type="RobotControl.py" name="robotControl" output="screen" />
 
+    <!-- Incluye la configuración del nodo de localización principal para el Pioneer. -->
     <include file="$(find pioneer_tfm)/launch/localization_pioneer.launch" />
-    
-    <!--include file="$(find pioneer_tfm)/launch/pioneer_teleop.launch" /-->
-    
-    <!--node pkg="rviz" type="rviz" name="rviz_hdl" args="-d $(find pioneer_tfm)/rviz/localization_pioneer.rviz" /-->
 
-    <!-- Launch the navigation stack with the DWA local planner -->
+    <!-- Incluye el lanzamiento de navegación con DWA para el robot en rampa (Ramp). -->
     <include file="$(find pioneer_tfm)/navigationSTVL-Ramp/launch/navigationPioneer.launch" />
 
-   <node pkg="rviz" type="rviz" name="rviz_costmap" args="-d $(find pioneer_tfm)/rviz/costmap.rviz" />
+    <!-- Arranca RViz con la configuración de costmap para visualizar mapas, odometría y estado. -->
+    <node pkg="rviz" type="rviz" name="rviz_costmap" args="-d $(find pioneer_tfm)/rviz/costmap.rviz" />
 
-    </launch>
+</launch>       
