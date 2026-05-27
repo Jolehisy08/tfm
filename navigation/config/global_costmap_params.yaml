@@ -1,8 +1,0 @@
-# Global costmap parameters for the Pioneer robot navigation stack.
-# This file defines the parameters for the global costmap, which is used for global path planning
-global_costmap:
-  global_frame: map
-  robot_base_frame: base_link
-  update_frequency: 1.0
-  static_map: true
-  transform_tolerance: 1.0
