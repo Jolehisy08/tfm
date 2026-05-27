@@ -6,7 +6,8 @@
     <!-- Publish transforms -->
     <include file="$(find pioneer_tfm)/launch/pioneer_tf.launch" />
     
-    
+    <node pkg="pioneer_tfm" type="RobotControl.py" name="robotControl" output="screen" />
+
     <include file="$(find pioneer_tfm)/launch/localization_pioneer.launch" />
     
     <!--include file="$(find pioneer_tfm)/launch/pioneer_teleop.launch" /-->

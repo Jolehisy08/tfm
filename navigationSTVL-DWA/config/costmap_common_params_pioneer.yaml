@@ -31,7 +31,7 @@ stvl_layer:
     sensor_frame: rslidar
     marking: true
     clearing: true
-    min_obstacle_height: 0.01
+    min_obstacle_height: 0.07
     max_obstacle_height: 0.6
     obstacle_range: 10.0   
     raytrace_range: 15.0   
@@ -39,8 +39,8 @@ stvl_layer:
 #cost_scaling_factor and inflation_radius were now moved to the inflation_layer ns
 inflation_layer:
   enabled:              true
-  cost_scaling_factor:  10.0  # exponential rate at which the obstacle cost drops off (default: 10)
-  inflation_radius:     0.3  # max. distance from an obstacle at which costs are incurred for planning paths.
+  cost_scaling_factor:  5.0  # exponential rate at which the obstacle cost drops off (default: 10)
+  inflation_radius:     0.35  # max. distance from an obstacle at which costs are incurred for planning paths.
 
 static_layer:
   enabled:              true
