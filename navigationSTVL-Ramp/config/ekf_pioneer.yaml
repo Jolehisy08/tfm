@@ -1,128 +1,126 @@
-### ekf config file ###
-ekf_filter_node:
-    ros__parameters:
-        # La frecuencia, en Hz, a la que el filtro entregará una estimación de posición. Nota que el filtro no comenzará
-        # el cálculo hasta que reciba al menos un mensaje de alguna de las entradas. Luego funcionará continuamente a la
-        # frecuencia especificada aquí, sin importar si recibe más mediciones. Por defecto es 30 si no se especifica.
-        frequency: 30.0
 
-        # El periodo, en segundos, después del cual consideramos que un sensor se ha quedado sin respuesta. En ese caso,
-        # realizamos un ciclo de predicción en el EKF sin corregirlo. Este parámetro puede verse como la frecuencia mínima
-        # con la que el filtro generará nueva salida. Por defecto es 1 / frequency si no se especifica.
-        sensor_timeout: 0.1
+# La frecuencia, en Hz, a la que el filtro entregará una estimación de posición. Nota que el filtro no comenzará
+# el cálculo hasta que reciba al menos un mensaje de alguna de las entradas. Luego funcionará continuamente a la
+# frecuencia especificada aquí, sin importar si recibe más mediciones. Por defecto es 30 si no se especifica.
+frequency: 30.0
 
-        # ekf_localization_node y ukf_localization_node usan un modelo de movimiento omnidireccional 3D. Si este parámetro
-        # se establece en true, no se usará información 3D en la estimación de estado. Úselo si opera en un entorno planar
-        # y quiere ignorar el efecto de pequeñas variaciones en el plano del suelo que podrían detectarse, por ejemplo, con
-        # un IMU. Por defecto es false si no se especifica.
-        two_d_mode: false
+# El periodo, en segundos, después del cual consideramos que un sensor se ha quedado sin respuesta. En ese caso,
+# realizamos un ciclo de predicción en el EKF sin corregirlo. Este parámetro puede verse como la frecuencia mínima
+# con la que el filtro generará nueva salida. Por defecto es 1 / frequency si no se especifica.
+sensor_timeout: 0.1
 
-        # Use este parámetro para proporcionar un desplazamiento en el transform generado por ekf_localization_node. Esto se
-        # puede usar para llevar el transform al futuro, lo cual es necesario para la interacción con algunos otros paquetes.
-        # Por defecto es 0.0 si no se especifica.
-        transform_time_offset: 0.0
+# ekf_localization_node y ukf_localization_node usan un modelo de movimiento omnidireccional 3D. Si este parámetro
+# se establece en true, no se usará información 3D en la estimación de estado. Úselo si opera en un entorno planar
+# y quiere ignorar el efecto de pequeñas variaciones en el plano del suelo que podrían detectarse, por ejemplo, con
+# un IMU. Por defecto es false si no se especifica.
+two_d_mode: false
 
-        # Use este parámetro para especificar cuánto tiempo debe esperar el listener de tf a que el transform esté disponible.
-        # Por defecto es 0.0 si no se especifica.
-        transform_timeout: 0.0
+# Use este parámetro para proporcionar un desplazamiento en el transform generado por ekf_localization_node. Esto se
+# puede usar para llevar el transform al futuro, lo cual es necesario para la interacción con algunos otros paquetes.
+# Por defecto es 0.0 si no se especifica.
+transform_time_offset: 0.0
 
-        # Si tiene problemas, intente establecer esto en true y luego haga echo del tópico /diagnostics_agg para ver si el
-        # nodo no está satisfecho con alguna configuración o datos.
-        print_diagnostics: true
+# Use este parámetro para especificar cuánto tiempo debe esperar el listener de tf a que el transform esté disponible.
+# Por defecto es 0.0 si no se especifica.
+transform_timeout: 0.0
 
-        # Configuraciones de depuración. No es para los débiles. Envía una cantidad enorme de información al archivo especificado
-        # por debug_out_file. ¡Espero que le gusten las matrices! Tenga en cuenta que activarlo afectará de forma muy negativa
-        # el rendimiento del nodo. Por defecto es false si no se especifica.
-        debug: false
+# Si tiene problemas, intente establecer esto en true y luego haga echo del tópico /diagnostics_agg para ver si el
+# nodo no está satisfecho con alguna configuración o datos.
+print_diagnostics: true
 
-        # Si se debe publicar el estado de aceleración. Por defecto es false si no se especifica.
-        publish_acceleration: false
+# Configuraciones de depuración. No es para los débiles. Envía una cantidad enorme de información al archivo especificado
+# por debug_out_file. ¡Espero que le gusten las matrices! Tenga en cuenta que activarlo afectará de forma muy negativa
+# el rendimiento del nodo. Por defecto es false si no se especifica.
+debug: false
 
-        # Si se debe transmitir la transformación por el tópico /tf. Por defecto es true si no se especifica.
-        publish_tf: true
+# Si se debe publicar el estado de aceleración. Por defecto es false si no se especifica.
+publish_acceleration: false
 
-        # Marcos de coordenadas principales:
-        map_frame: map              # Por defecto es "map" si no se especifica
-        odom_frame: odom            # Por defecto es "odom" si no se especifica
-        base_link_frame: base_link  # Por defecto es "base_link" si no se especifica
-        world_frame: odom           # Por defecto es el valor de odom_frame si no se especifica
+# Si se debe transmitir la transformación por el tópico /tf. Por defecto es true si no se especifica.
+publish_tf: true
 
-        # ----------------------------------------------------
-        # 1. ODOMETRÍA DE LAS RUEDAS (p2os_driver)
-        # ----------------------------------------------------
-        # El filtro acepta un número arbitrario de entradas. 
-        odom0: /odom
+# Marcos de coordenadas principales:
+map_frame: map              # Por defecto es "map" si no se especifica
+odom_frame: odom            # Por defecto es "odom" si no se especifica
+base_link_frame: base_link  # Por defecto es "base_link" si no se especifica
+world_frame: odom           # Por defecto es el valor de odom_frame si no se especifica
 
-        # El orden de los valores es x, y, z, roll, pitch, yaw, vx, vy, vz, vroll, vpitch, vyaw, ax, ay, az.
-        # Solo usamos la velocidad de avance (vx) y la velocidad de giro (vyaw) de las ruedas, ya que resbalan al girar.
-        odom0_config: [false, false, false,
-                       false, false, false,
-                       true,  false, false,
-                       false, false, true,
-                       false, false, false]
+# ----------------------------------------------------
+# 1. ODOMETRÍA DE LAS RUEDAS (p2os_driver)
+# ----------------------------------------------------
+# El filtro acepta un número arbitrario de entradas. 
+odom0: /odom
 
-        # Si tiene datos de alta frecuencia o ejecuta con un valor de frecuencia bajo, es posible que desee aumentar
-        # el tamaño de la cola de suscripción para que se fusionen más mediciones.
-        odom0_queue_size: 2
+# El orden de los valores es x, y, z, roll, pitch, yaw, vx, vy, vz, vroll, vpitch, vyaw, ax, ay, az.
+# Solo usamos la velocidad de avance (vx) y la velocidad de giro (vyaw) de las ruedas
+odom0_config: [false, false, false,
+                false, false, false,
+                true,  false, false,
+                false, false, true,
+                false, false, false]
 
-        # Cuando el modo differential está activado, todos los datos de pose absolutos se convierten en datos de velocidad
-        odom0_differential: false
+# Si tiene datos de alta frecuencia o ejecuta con un valor de frecuencia bajo, es posible que desee aumentar
+# el tamaño de la cola de suscripción para que se fusionen más mediciones.
+odom0_queue_size: 2
 
-        # Si este parámetro es true, la primera medición se trata como un "punto cero" para todas las mediciones futuras.
-        odom0_relative: false
+# Cuando el modo differential está activado, todos los datos de pose absolutos se convierten en datos de velocidad
+odom0_differential: false
 
-        # Si sus datos están sujetos a valores atípicos, use estos umbrales expresados como distancias de Mahalanobis.
-        odom0_pose_rejection_threshold: 5.0
-        odom0_twist_rejection_threshold: 1.0
+# Si este parámetro es true, la primera medición se trata como un "punto cero" para todas las mediciones futuras.
+odom0_relative: false
+
+# Si sus datos están sujetos a valores atípicos, use estos umbrales expresados como distancias de Mahalanobis.
+odom0_pose_rejection_threshold: 5.0
+odom0_twist_rejection_threshold: 1.0
 
 
-        # ----------------------------------------------------
-        # 2. IMU STM32 (Filtro Madgwick integrado)
-        # ----------------------------------------------------
-        imu0: /imu/data
-        
-        # Confiamos en la orientación (Roll, Pitch, Yaw) y velocidades angulares (vroll, vpitch, vyaw)
-        imu0_config: [false, false, false,
-                      true,  true,  true,
-                      false, false, false,
-                      true,  true,  true,
-                      false, false, false]
-                      
-        imu0_differential: false
-        imu0_relative: true
-        imu0_queue_size: 5
-        imu0_pose_rejection_threshold: 0.8                 
-        imu0_twist_rejection_threshold: 0.8                
-        imu0_linear_acceleration_rejection_threshold: 0.8  
+# ----------------------------------------------------
+# 2. IMU STM32 (Filtro Madgwick integrado)
+# ----------------------------------------------------
+imu0: /imu/data
 
-        # [AVANZADO] Algunos IMU eliminan automáticamente la aceleración debida a la gravedad y otros no. Si el suyo no lo hace,
-        # configure esto en true y asegúrese de que sus datos cumplan con REP-103.
-        imu0_remove_gravitational_acceleration: true
+# Confiamos en la orientación (Roll, Pitch, Yaw) y velocidades angulares (vroll, vpitch, vyaw)
+imu0_config: [false, false, false,
+                true,  true, true,
+                false, false, false,
+                true,  true,  true,
+                false, false, false]
+                
+imu0_differential: false
+imu0_relative: true
+imu0_queue_size: 5
+imu0_pose_rejection_threshold: 0.8                 
+imu0_twist_rejection_threshold: 0.8                
+imu0_linear_acceleration_rejection_threshold: 0.8  
 
-        # ----------------------------------------------------
-        # PARÁMETROS AVANZADOS DEL FILTRO Y MATRICES
-        # ----------------------------------------------------
+# [AVANZADO] Algunos IMU eliminan automáticamente la aceleración debida a la gravedad y otros no. Si el suyo no lo hace,
+# configure esto en true y asegúrese de que sus datos cumplan con REP-103.
+imu0_remove_gravitational_acceleration: true
 
-        # Si usamos o no la entrada de control (cmd_vel) durante la predicción.
-        use_control: false
+# ----------------------------------------------------
+# PARÁMETROS AVANZADOS DEL FILTRO Y MATRICES
+# ----------------------------------------------------
 
-        # [AVANZADO] La matriz de covarianza del ruido de proceso. 
-        # Los valores están ordenados como x, y, z, roll, pitch, yaw, vx, vy, vz, vroll, vpitch, vyaw, ax, ay, az.
-        process_noise_covariance: [0.05, 0.0,    0.0,    0.0,    0.0,    0.0,    0.0,     0.0,     0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,
-                                   0.0,    0.05, 0.0,    0.0,    0.0,    0.0,    0.0,     0.0,     0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,
-                                   0.0,    0.0,    0.06, 0.0,    0.0,    0.0,    0.0,     0.0,     0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,
-                                   0.0,    0.0,    0.0,    0.03, 0.0,    0.0,    0.0,     0.0,     0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,
-                                   0.0,    0.0,    0.0,    0.0,    0.03, 0.0,    0.0,     0.0,     0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,
-                                   0.0,    0.0,    0.0,    0.0,    0.0,    0.06, 0.0,     0.0,     0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,
-                                   0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.025, 0.0,     0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,
-                                   0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,     0.025, 0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,
-                                   0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,     0.0,     0.04, 0.0,    0.0,    0.0,    0.0,    0.0,    0.0,
-                                   0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,     0.0,     0.0,    0.01, 0.0,    0.0,    0.0,    0.0,    0.0,
-                                   0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,     0.0,     0.0,    0.0,    0.01, 0.0,    0.0,    0.0,    0.0,
-                                   0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,     0.0,     0.0,    0.0,    0.0,    0.02, 0.0,    0.0,    0.0,
-                                   0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,     0.0,     0.0,    0.0,    0.0,    0.0,    0.01, 0.0,    0.0,
-                                   0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,     0.0,     0.0,    0.0,    0.0,    0.0,    0.0,    0.01, 0.0,
-                                   0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,     0.0,     0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.015]
+# Si usamos o no la entrada de control (cmd_vel) durante la predicción.
+use_control: false
 
-        # [AVANZADO] Esto representa el valor inicial para la matriz de covarianza del error de estimación del estado.
-        initial_estimate_covariance: [1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9]
+# [AVANZADO] La matriz de covarianza del ruido de proceso. 
+# Los valores están ordenados como x, y, z, roll, pitch, yaw, vx, vy, vz, vroll, vpitch, vyaw, ax, ay, az.
+process_noise_covariance: [0.05, 0.0,    0.0,    0.0,    0.0,    0.0,    0.0,     0.0,     0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,
+                            0.0,    0.05, 0.0,    0.0,    0.0,    0.0,    0.0,     0.0,     0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,
+                            0.0,    0.0,    0.06, 0.0,    0.0,    0.0,    0.0,     0.0,     0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,
+                            0.0,    0.0,    0.0,    0.03, 0.0,    0.0,    0.0,     0.0,     0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,
+                            0.0,    0.0,    0.0,    0.0,    0.03, 0.0,    0.0,     0.0,     0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,
+                            0.0,    0.0,    0.0,    0.0,    0.0,    0.06, 0.0,     0.0,     0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,
+                            0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.025, 0.0,     0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,
+                            0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,     0.025, 0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,
+                            0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,     0.0,     0.04, 0.0,    0.0,    0.0,    0.0,    0.0,    0.0,
+                            0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,     0.0,     0.0,    0.01, 0.0,    0.0,    0.0,    0.0,    0.0,
+                            0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,     0.0,     0.0,    0.0,    0.01, 0.0,    0.0,    0.0,    0.0,
+                            0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,     0.0,     0.0,    0.0,    0.0,    0.02, 0.0,    0.0,    0.0,
+                            0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,     0.0,     0.0,    0.0,    0.0,    0.0,    0.01, 0.0,    0.0,
+                            0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,     0.0,     0.0,    0.0,    0.0,    0.0,    0.0,    0.01, 0.0,
+                            0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,     0.0,     0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.015]
+
+# [AVANZADO] Esto representa el valor inicial para la matriz de covarianza del error de estimación del estado.
+initial_estimate_covariance: [1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9]

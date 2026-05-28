@@ -3,6 +3,7 @@
 
   <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
     <param name="base_local_planner" value="dwa_local_planner/DWAPlannerROS"/>
+    <remap from="odom" to="/odometry/filtered" />
     
     <rosparam file="$(find pioneer_tfm)/navigationSTVL-Ramp/config/costmap_common_params_pioneer.yaml" command="load" ns="global_costmap" /> 
     <rosparam file="$(find pioneer_tfm)/navigationSTVL-Ramp/config/costmap_common_params_pioneer.yaml" command="load" ns="local_costmap" />

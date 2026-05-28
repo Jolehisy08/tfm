@@ -14,7 +14,7 @@ stvl_layer:
   mapping_mode: false
   max_angle_pass: 15.0       # Ángulo máximo de inclinación para detección de rampas (grados).
   decay_model: 0             # Modelo de decaimiento temporal: 0=lineal, 1=exponencial, -1=persistente.
-  observation_sources: velodyne rslidar
+  observation_sources: velodyne #rslidar
 
   velodyne:
     data_type: PointCloud2

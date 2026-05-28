@@ -4,7 +4,7 @@
     <arg name="points_topic" default="/velodyne_points" />
     <arg name="map_file" default="$(find pioneer_tfm)/data/mapa_ull_clean.pcd" />
 
-    <arg name="odom_child_frame_id" default="odom" />
+    <arg name="odom_child_frame_id" default="base_link" />
 
     <arg name="use_imu" default="false" />
     <arg name="invert_imu_acc" default="false" />
@@ -29,6 +29,8 @@
     <node pkg="nodelet" type="nodelet" name="hdl_localization_nodelet" args="load hdl_localization/HdlLocalizationNodelet $(arg nodelet_manager)">
         <remap from="/velodyne_points" to="$(arg points_topic)" />
         <remap from="/gpsimu_driver/imu_data" to="$(arg imu_topic)" />
+        
+        <remap from="/odom" to="/odometry/filtered" />
       
         <param name="odom_child_frame_id" value="$(arg odom_child_frame_id)" />
         

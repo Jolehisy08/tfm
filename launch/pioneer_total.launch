@@ -8,9 +8,9 @@
     <!-- Incluye el nodo de lectura serial del IMU ICM-20948 desde el paquete stm32IMU. -->
     <include file="$(find stm32IMU)/launch/icm-20948_serial_node.launch" />
 
-    <!-- Nodo de fusión de sensores EKF de robot_localization. Carga los parámetros desde ekf.yaml. -->
+    <!-- Nodo de fusión de sensores EKF de robot_localization. Carga los parámetros desde ekf_pioneer.yaml. -->
     <node pkg="robot_localization" type="ekf_localization_node" name="ekf_se" clear_params="true">
-        <rosparam command="load" file="$(find pioneer_tfm)/config/ekf.yaml" />
+        <rosparam command="load" file="$(find pioneer_tfm)/navigationSTVL-Ramp/config/ekf_pioneer.yaml" />
     </node>
 
     <!-- Nodo propio de control del robot: ejecuta la lógica de RobotControl.py. -->
@@ -20,7 +20,7 @@
     <include file="$(find pioneer_tfm)/launch/localization_pioneer.launch" />
 
     <!-- Incluye el lanzamiento de navegación con DWA para el robot en rampa (Ramp). -->
-    <include file="$(find pioneer_tfm)/navigationSTVL-Ramp/launch/navigationPioneer.launch" />
+    <include file="$(find pioneer_tfm)/navigationSTVL-Ramp/launch/navigationPioneerRamp.launch" />
 
     <!-- Arranca RViz con la configuración de costmap para visualizar mapas, odometría y estado. -->
     <node pkg="rviz" type="rviz" name="rviz_costmap" args="-d $(find pioneer_tfm)/rviz/costmap.rviz" />

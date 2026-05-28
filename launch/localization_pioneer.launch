@@ -8,7 +8,7 @@
         <param name="use_gui" value="false"/>
     </node>
     <!-- OdomGenerada.py is a node that reconstructs the odometry from the base_link frame and the odom frame -->
-    <node pkg="pioneer_tfm" type="OdomGenerada.py" name="odom_reconstruct" output="screen">
+    <node pkg="pioneer_tfm" type="OdomGeneradaC.py" name="odom_reconstruct" output="screen">
         <param name="base_link_frame" value="base_link"/>
         <param name="odom_frame" value="odom"/>
     </node>
