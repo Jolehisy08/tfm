@@ -1,0 +1,96 @@
+TebLocalPlannerROS:
+
+  odom_topic: odom
+  map_frame: /map                     # Frame global de referencia del mapa
+  footprint_model:
+    type: "polygon"
+    vertices: [ [0.3302, -0.0508], [0.254, -0.0508], [0.254, -0.254], [-0.254, -0.254], [-0.254, 0.254], [0.254, 0.254], [0.254, 0.0508], [0.3302, 0.0508] ]
+  # -------------------------------------------------------------------------
+  # Robot Configuration Parameters
+  # -------------------------------------------------------------------------
+  max_vel_x: 0.5                      # Velocidad máxima de avance en metros por segundo
+  max_vel_x_backwards: 0.1            # Velocidad máxima de retroceso en metros por segundo
+  max_vel_y: 0.0                      # Velocidad máxima lateral para robots no holonómicos
+  acc_lim_x: 1.0                      # Límite de aceleración lineal en el eje X
+  acc_lim_y: 0.0                      # Límite de aceleración lineal en el eje Y
+  
+  max_vel_theta: 5.0                  # Velocidad angular máxima en radianes por segundo
+  acc_lim_theta: 3.0                  # Límite de aceleración angular en radianes por segundo cuadrado
+
+  min_turning_radius: 0.0             # Radio de giro mínimo en metros (0.0 para rotación sobre el propio eje)
+  wheelbase: 0.0                      # Distancia entre ejes para robots con dirección tipo Ackermann
+  cmd_angle_into_backwards_msg: false # Conversión del ángulo de dirección en comandos de marcha atrás
+
+  # -------------------------------------------------------------------------
+  # Goal Tolerance Parameters
+  # -------------------------------------------------------------------------
+  xy_goal_tolerance: 0.15             # Tolerancia de posición final con respecto al objetivo en metros
+  yaw_goal_tolerance: 0.3             # Tolerancia de orientación final con respecto al objetivo en radianes
+  free_goal_vel: false                # Elimina la restricción de velocidad cero al alcanzar el objetivo
+
+  # -------------------------------------------------------------------------
+  # Trajectory Configuration Parameters
+  # -------------------------------------------------------------------------
+  dt_ref: 0.45                             # Resolución temporal deseada para los segmentos de la trayectoria
+  dt_hysteresis: 0.045                    # Histéresis temporal aplicada para la adición o remoción de estados
+  min_samples: 3                          # Número mínimo de configuraciones requeridas en la trayectoria
+  global_plan_overwrite_orientation: true # Ajuste automático de la orientación según la ruta global
+  global_plan_viapoint_sep: -0.1          # Distancia de separación mínima entre puntos de paso obligatorios
+  max_global_plan_lookahead_dist: 2.0     # Distancia máxima del plan global considerada por el optimizador
+  force_reinit_new_goal_dist: 1.0         # Umbral de distancia para forzar la reinicialización de la trayectoria
+  feasibility_check_no_poses: 5           # Número de estados futuros evaluados en la verificación de viabilidad
+  publish_feedback: false                 # Publicación de mensajes de retroalimentación del planificador local
+  shrink_horizon_backup: true             # Reducción temporal del horizonte si no se encuentra una trayectoria válida
+  allow_init_with_backwards_motion: true  # Permite la inicialización de la trayectoria en marcha atrás
+
+  # -------------------------------------------------------------------------
+  # Obstacle Parameters
+  # -------------------------------------------------------------------------
+  min_obstacle_dist: 0.35                  # Distancia mínima de seguridad permitida a los obstáculos
+  include_costmap_obstacles: true          # Integración de los obstáculos definidos en el costmap local
+  costmap_obstacles_behind_robot_dist: 1.5 # Distancia de monitorización de obstáculos por detrás del robot
+  obstacle_poses_affected: 30              # Número de estados adyacentes vinculados al coste de un obstáculo
+  inflation_dist: 0.3                      # Radio de la zona de coste de inflación para el optimizador
+  include_dynamic_obstacles: true          # Consideración de la velocidad estimada de los obstáculos dinámicos
+  legacy_obstacle_association: false       # Uso del algoritmo optimizado de asociación de obstáculos
+
+  # -------------------------------------------------------------------------
+  # Optimization Parameters
+  # -------------------------------------------------------------------------
+  no_inner_iterations: 3                # Iteraciones internas ejecutadas en cada ciclo del optimizador
+  no_outer_iterations: 2                # Iteraciones externas ejecutadas en cada ciclo del optimizador
+  optimization_activate: true           # Activación del motor de optimización basado en grafos g2o
+  optimization_verbose: false           # Salida detallada del estado del optimizador en consola
+  penalty_epsilon: 0.05                 # Margen de tolerancia para la aplicación de penalizaciones de velocidad
+  
+  weight_max_vel_x: 2.0                 # Factor de ponderación para el límite de velocidad en X
+  weight_max_vel_theta: 1.0             # Factor de ponderación para el límite de velocidad angular
+  weight_acc_lim_x: 1.0                 # Factor de ponderación para el límite de aceleración en X
+  weight_acc_lim_theta: 1.0             # Factor de ponderación para el límite de aceleración angular
+  weight_kinematics_nh: 1000.0          # Factor de penalización para restricciones no holonómicas (desplazamiento en Y)
+  weight_kinematics_forward_drive: 1.0  # Factor de penalización para priorizar la marcha hacia adelante
+  weight_kinematics_turning_radius: 1.0 # Factor de penalización por violación del radio de giro mínimo
+  weight_optimaltime: 1.0               # Factor de ponderación para la minimización del tiempo de ejecución
+  weight_obstacle: 50.0                 # Factor de penalización por proximidad a los obstáculos
+  weight_inflation: 0.1                 # Factor de penalización aplicado dentro de la zona de inflación
+  weight_dynamic_obstacle: 50.0         # Factor de penalización por proximidad a obstáculos dinámicos
+  weight_viapoint: 1.0                  # Factor de ponderación para el seguimiento de puntos de paso
+  weight_adapt_factor: 2.0              # Factor multiplicador para el ajuste dinámico de pesos
+
+  # -------------------------------------------------------------------------
+  # Homotopy Class Planner
+  # -------------------------------------------------------------------------
+  enable_homotopy_class_planning: true  # Evaluación paralela de trayectorias en topologías alternativas
+  enable_multithreading: true           # Uso de múltiples hilos de ejecución para el cálculo de clases
+  simple_exploration: false             # Uso del algoritmo avanzado para la generación de alternativas
+  max_number_classes: 2                 # Límite de topologías de trayectorias evaluadas simultáneamente
+  selection_cost_hysteresis: 1.0        # Umbral de tolerancia para el intercambio de la trayectoria óptima
+  selection_obst_cost_scale: 1.0        # Escala del coste de obstáculos en la selección de la trayectoria
+  selection_alternative_time_cost: 0.05 # Ponderación del tiempo de viaje en rutas alternativas
+  
+  roadmap_graph_no_samples: 10        # Densidad de muestreo del grafo para la búsqueda de alternativas
+  roadmap_graph_area_width: 5.0       # Ancho del espacio de exploración en metros para la generación del grafo
+  h_signature_prescreening_delta: 0.1 # Umbral inicial de discriminación geométrica de trayectorias
+  h_signature_threshold: 0.1          # Umbral de equivalencia topológica para descartar rutas redundantes
+  obstacle_keypoint_offset: 0.1       # Separación aplicada a los puntos críticos de los obstáculos
+  visualize_hc_graph: false           # Renderizado del grafo de alternativas en las herramientas de visualización
