@@ -5,11 +5,10 @@
    
    <!--include file="$(find mavros)/launch/apm.launch" -->
 
-   <node pkg="p2os_driver" type="p2os_driver" name="p2os_driver" output="screen"> 
-     <param name="odom_frame_id" value="odom_pioneer" />
-
-     <remap from="tf" to="tf_old" /> 
-     <remap from="/tf" to="/tf_old" />
+   <node pkg="p2os_driver" type="p2os_driver" name="p2os_driver" output="screen">
+   
+     <param name="odom_frame" value="odom_basura" />
+     <param name="base_link_frame" value="base_link_basura" />
      
      <param name="port" value="/dev/ttyUSB0" />
      <param name="pulse" value="1" />
@@ -25,7 +24,6 @@
      <param name="trans_kp" value="10" />
      <param name="trans_kv" value="0" />
      <param name="trans_ki" value="0" />
-
 
       <!--remap from="/cmd_vel" to="/cmd_vel_adj" /-->
      

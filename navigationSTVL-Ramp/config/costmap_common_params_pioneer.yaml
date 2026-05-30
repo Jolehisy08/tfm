@@ -4,7 +4,8 @@ footprint: [ [0.3302, -0.0508], [0.254, -0.0508], [0.254, -0.254], [-0.254, -0.2
 stvl_layer:
   enabled: true
   voxel_decay: 0.2           
-  voxel_size: 0.05          
+  voxel_size: 0.05 
+  voxel_height: 0.05  
   track_unknown_space: true
   max_obstacle_height: 2.0
   mark_threshold: 0          
@@ -14,7 +15,7 @@ stvl_layer:
   mapping_mode: false
   max_angle_pass: 15.0       # Ángulo máximo de inclinación para detección de rampas (grados).
   decay_model: 0             # Modelo de decaimiento temporal: 0=lineal, 1=exponencial, -1=persistente.
-  observation_sources: velodyne #rslidar
+  observation_sources: velodyne rslidar
 
   velodyne:
     data_type: PointCloud2
@@ -31,14 +32,15 @@ stvl_layer:
     horizontal_fov_angle: 6.28   # Ángulo de visión horizontal en radianes.
     vertical_fov_padding: 0.05   # Margen de seguridad del FOV vertical en metros.
     decay_acceleration: 5.0      # Factor de aceleración de decaimiento de vóxeles.
-    
+  
   rslidar:
     data_type: PointCloud2
     topic: /rslidar_points
     sensor_frame: rslidar
+    mark_threshold: 1.0
     marking: true
     clearing: true
-    min_obstacle_height: 0.07
+    min_obstacle_height: 0.1
     max_obstacle_height: 0.6
     obstacle_range: 10.0   
     raytrace_range: 15.0   

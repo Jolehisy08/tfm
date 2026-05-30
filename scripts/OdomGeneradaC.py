@@ -143,7 +143,7 @@ def callback(bunker_status_msg):
     t.transform.rotation.z = q[2]
     t.transform.rotation.w = q[3]
     
-    br.sendTransform(t)
+    #br.sendTransform(t)
     
     
 
