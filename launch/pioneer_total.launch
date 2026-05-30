@@ -10,7 +10,7 @@
 
     <!-- Nodo de fusión de sensores EKF de robot_localization. Carga los parámetros desde ekf_pioneer.yaml. -->
     <node pkg="robot_localization" type="ekf_localization_node" name="ekf_se" clear_params="true">
-        <rosparam command="load" file="$(find pioneer_tfm)/navigationSTVL-Ramp/config/ekf_pioneer.yaml" />
+        <rosparam command="load" file="$(find pioneer_tfm)/navigationSTVL-Ramp-TEB/config/ekf_pioneer.yaml" />
     </node>
 
     <!-- Nodo propio de control del robot: ejecuta la lógica de RobotControl.py. -->
@@ -19,8 +19,8 @@
     <!-- Incluye la configuración del nodo de localización principal para el Pioneer. -->
     <include file="$(find pioneer_tfm)/launch/localization_pioneer.launch" />
 
-    <!-- Incluye el lanzamiento de navegación con DWA para el robot en rampa (Ramp). -->
-    <include file="$(find pioneer_tfm)/navigationSTVL-Ramp/launch/navigationPioneerRamp.launch" />
+    <!-- Incluye el lanzamiento de navegación con TEB para el robot en rampa (Ramp). -->
+    <include file="$(find pioneer_tfm)/navigationSTVL-Ramp-TEB/launch/navigationPioneerTEB.launch" />
 
     <!-- Arranca RViz con la configuración de costmap para visualizar mapas, odometría y estado. -->
     <node pkg="rviz" type="rviz" name="rviz_costmap" args="-d $(find pioneer_tfm)/rviz/costmap.rviz" />

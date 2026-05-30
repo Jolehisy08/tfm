@@ -1,0 +1,252 @@
+### ekf config file ###
+ekf_filter_node:
+    ros__parameters:
+        # La frecuencia, en Hz, a la que el filtro entregará una estimación de posición. Nota que el filtro no comenzará
+        # el cálculo hasta que reciba al menos un mensaje de alguna de las entradas. Luego funcionará continuamente a la
+        # frecuencia especificada aquí, sin importar si recibe más mediciones. Por defecto es 30 si no se especifica.
+        frequency: 30.0
+
+        # El periodo, en segundos, después del cual consideramos que un sensor se ha quedado sin respuesta. En ese caso,
+        # realizamos un ciclo de predicción en el EKF sin corregirlo. Este parámetro puede verse como la frecuencia mínima
+        # con la que el filtro generará nueva salida. Por defecto es 1 / frequency si no se especifica.
+        sensor_timeout: 0.1
+
+        # ekf_localization_node y ukf_localization_node usan un modelo de movimiento omnidireccional 3D. Si este parámetro
+        # se establece en true, no se usará información 3D en la estimación de estado. Úselo si opera en un entorno planar
+        # y quiere ignorar el efecto de pequeñas variaciones en el plano del suelo que podrían detectarse, por ejemplo, con
+        # un IMU. Por defecto es false si no se especifica.
+        two_d_mode: false
+
+        # Use este parámetro para proporcionar un desplazamiento en el transform generado por ekf_localization_node. Esto se
+        # puede usar para llevar el transform al futuro, lo cual es necesario para la interacción con algunos otros paquetes.
+        # Por defecto es 0.0 si no se especifica.
+        transform_time_offset: 0.0
+
+        # Use este parámetro para especificar cuánto tiempo debe esperar el listener de tf a que el transform esté disponible.
+        # Por defecto es 0.0 si no se especifica.
+        transform_timeout: 0.0
+
+        # Si tiene problemas, intente establecer esto en true y luego haga echo del tópico /diagnostics_agg para ver si el
+        # nodo no está satisfecho con alguna configuración o datos.
+        print_diagnostics: true
+
+        # Configuraciones de depuración. No es para los débiles. Envía una cantidad enorme de información al archivo especificado
+        # por debug_out_file. ¡Espero que le gusten las matrices! Tenga en cuenta que activarlo afectará de forma muy negativa
+        # el rendimiento del nodo. Por defecto es false si no se especifica.
+        debug: false
+
+        # Por defecto es "robot_localization_debug.txt" si no se especifica. Por favor especifique la ruta completa.
+        debug_out_file: /path/to/debug/file.txt
+
+        # Si permitiremos que mediciones antiguas provoquen una re-publicación del estado actualizado.
+        permit_corrected_publication: false
+
+        # Si se debe publicar el estado de aceleración. Por defecto es false si no se especifica.
+        publish_acceleration: false
+
+        # Si se debe transmitir la transformación por el tópico /tf. Por defecto es true si no se especifica.
+        publish_tf: true
+
+        # REP-105 (http://www.ros.org/reps/rep-0105.html) especifica cuatro marcos de coordenadas principales: base_link, odom,
+        # map y earth. base_link es el marco de coordenadas fijado al robot. Tanto odom como map son marcos fijos al mundo.
+        # La posición del robot en el marco odom derivará con el tiempo, pero es precisa a corto plazo y debe ser continua.
+        # Por eso el marco odom es el mejor para ejecutar planes de movimiento locales. El marco map, al igual que odom,
+        # es un marco de coordenadas fijo al mundo, y aunque contiene la estimación de posición global más precisa para su robot,
+        # puede sufrir saltos discretos, por ejemplo debido a la fusión de datos GPS o una corrección de un nodo de localización
+        # basado en mapas. El marco earth se usa para relacionar múltiples marcos map dándoles un marco de referencia común.
+        # ekf_localization_node y ukf_localization_node no se ocupan del marco earth.
+        # Aquí se explica cómo usar las siguientes configuraciones:
+        # 1. Establezca los marcos map_frame, odom_frame y base_link en los nombres apropiados para su sistema.
+        #     1a. Si su sistema no tiene map_frame, simplemente elimínelo y asegúrese de que "world_frame" esté fijado al valor de
+        #         odom_frame.
+        # 2. Si está fusionando datos de posición continuos como odometría de encoders, odometría visual o datos de IMU,
+        #    establezca "world_frame" en el valor de odom_frame. Este es el comportamiento predeterminado de los nodos de
+        #    estimación de estado de robot_localization.
+        # 3. Si está fusionando datos absolutos de posición global sujetos a saltos discretos (por ejemplo, GPS o actualizaciones de
+        #    posición a partir de observaciones de hitos) entonces:
+        #     3a. Establezca su "world_frame" en el valor de map_frame.
+        #     3b. ASEGÚRESE de que algo más esté generando el transform odom->base_link. Note que esto incluso puede ser otro nodo de
+        #         estimación de estado de robot_localization. Sin embargo, esa instancia no debe fusionar los datos globales.
+        map_frame: map              # Por defecto es "map" si no se especifica
+        odom_frame: odom            # Por defecto es "odom" si no se especifica
+        base_link_frame: base_link  # Por defecto es "base_link" si no se especifica
+        world_frame: odom           # Por defecto es el valor de odom_frame si no se especifica
+
+        # El filtro acepta un número arbitrario de entradas de cada tipo de mensaje de entrada (nav_msgs/Odometry,
+        # geometry_msgs/PoseWithCovarianceStamped, geometry_msgs/TwistWithCovarianceStamped,
+        # sensor_msgs/Imu). Para agregar una entrada, simplemente añada el siguiente número en la secuencia al nombre base,
+        # por ejemplo odom0, odom1, twist0, twist1, imu0, imu1, imu2, etc. El valor debe ser el nombre del tópico.
+        # Estos parámetros obviamente no tienen valores por defecto y deben especificarse.
+        odom0: example/odom
+
+        # Cada lectura de sensor actualiza alguna o todas las variables de estado del filtro. Estas opciones le dan mayor control
+        # sobre qué valores de cada medición se alimentan al filtro. Por ejemplo, si tiene un mensaje de odometría como entrada pero
+        # solo quiere usar su valor de posición Z, entonces establezca todo el vector en false, excepto la tercera entrada.
+        # El orden de los valores es x, y, z, roll, pitch, yaw, vx, vy, vz, vroll, vpitch, vyaw, ax, ay, az. Note que algunos tipos
+        # de mensajes no proporcionan algunas de las variables de estado estimadas por el filtro. Por ejemplo, un mensaje
+        # TwistWithCovarianceStamped no tiene información de pose, por lo que las primeras seis entradas serían sin sentido en
+        # ese caso. Cada vector tiene por defecto todos los valores en false si no se especifica, lo que hace que este parámetro
+        # sea efectivamente obligatorio para cada sensor.
+        odom0_config: [true,  true,  false,
+                       false, false, false,
+                       false, false, false,
+                       false, false, true,
+                       false, false, false]
+
+        # Si tiene datos de alta frecuencia o ejecuta con un valor de frecuencia bajo, es posible que desee aumentar
+        # el tamaño de la cola de suscripción para que se fusionen más mediciones.
+        odom0_queue_size: 2
+
+        # [AVANZADO] Al medir una variable de pose con dos sensores, puede darse el caso de que ambos infraestimen sus
+        # covarianzas. Esto puede provocar que el filtro salte rápidamente entre cada medición a medida que llegan. En estos casos,
+        # a menudo tiene sentido (a) corregir las covarianzas de la medición, o (b) si la velocidad también la mide uno de los
+        # sensores, dejar que un sensor mida pose y el otro mida velocidad. Sin embargo, hacer (a) o (b) no siempre es viable,
+        # por lo que exponemos el parámetro differential. Cuando el modo differential está activado, todos los datos de pose
+        # absolutos se convierten en datos de velocidad al diferenciar las mediciones de pose absolutas. Estas velocidades se
+        # integran como de costumbre. NOTA: esto solo se aplica a sensores que proporcionan mediciones de pose; establecer
+        # differential en true para mediciones de twist no tiene efecto.
+        odom0_differential: false
+
+        # [AVANZADO] Cuando el nodo arranca, si este parámetro es true, la primera medición se trata como un "punto cero"
+        # para todas las mediciones futuras. Aunque puede lograr el mismo efecto con el parámetro differential, la diferencia
+        # clave es que el parámetro relative no convierte la medición en velocidad antes de integrarla. Si simplemente quiere
+        # que sus mediciones comiencen en 0 para un sensor dado, establezca esto en true.
+        odom0_relative: false
+
+        # [AVANZADO] Si se debe usar la pose inicial de child_frame_id como el origen de la odometría.
+        # Nota: esto es diferente de establecer odom0_relative en true, ya que cuando child_frame es distinto de
+        # base_link_frame, la rotación de base_link se acoplará a la traslación de child_frame.
+        # Establezca en true para fusionar fuentes de odometría secundarias que están rígidamente conectadas a base_link pero
+        # tienen un offset distinto de cero respecto a base_link.
+        odom0_pose_use_child_frame: false
+
+        # [AVANZADO] Si sus datos están sujetos a valores atípicos, use estos umbrales expresados como distancias de Mahalanobis
+        # para controlar qué tan lejos del estado actual del vehículo puede estar una medición de sensor. Cada uno por defecto
+        # es numeric_limits<double>::max() si no se especifica. Se recomienda encarecidamente eliminar estos parámetros si no
+        # son necesarios. Los datos se especifican a nivel de las variables de pose y twist, en lugar de cada variable por separado.
+        # Para mensajes que tienen datos de pose y twist, el parámetro especifica a qué parte del mensaje se aplican los umbrales.
+        odom0_pose_rejection_threshold: 5.0
+        odom0_twist_rejection_threshold: 1.0
+
+        # Más ejemplos de parámetros de entrada
+        odom1: example/odom2
+        odom1_config: [false, false, true,
+                       false, false, false,
+                       false, false, false,
+                       false, false, true,
+                       false, false, false]
+        odom1_differential: false
+        odom1_relative: true
+        odom1_queue_size: 2
+        odom1_pose_rejection_threshold: 2.0
+        odom1_twist_rejection_threshold: 0.2
+        pose0: example/pose
+        pose0_config: [true,  true,  false,
+                       false, false, false,
+                       false, false, false,
+                       false, false, false,
+                       false, false, false]
+        pose0_differential: true
+        pose0_relative: false
+        pose0_queue_size: 5
+        pose0_rejection_threshold: 2.0  # Observe la diferencia en el nombre del parámetro
+
+        twist0: example/twist
+        twist0_config: [false, false, false,
+                        false, false, false,
+                        true,  true,  true,
+                        false, false, false,
+                        false, false, false]
+        twist0_queue_size: 3
+        twist0_rejection_threshold: 2.0
+
+        imu0: example/imu
+        imu0_config: [false, false, false,
+                      true,  true,  true,
+                      false, false, false,
+                      true,  true,  true,
+                      true,  true,  true]
+        imu0_differential: false
+        imu0_relative: true
+        imu0_queue_size: 5
+        imu0_pose_rejection_threshold: 0.8                 # Observe la diferencia en los nombres de los parámetros
+        imu0_twist_rejection_threshold: 0.8                #
+        imu0_linear_acceleration_rejection_threshold: 0.8  #
+
+        # [AVANZADO] Algunos IMU eliminan automáticamente la aceleración debida a la gravedad y otros no. Si el suyo no lo hace,
+        # configure esto en true y asegúrese de que sus datos cumplan con REP-103, específicamente, que los datos estén en el
+        # marco ENU.
+        imu0_remove_gravitational_acceleration: true
+
+        # [AVANZADO] Los modelos EKF y UKF siguen un ciclo estándar de predicción/corrección. Durante la predicción, si no hay
+        # referencia de aceleración, la velocidad en el tiempo t+1 se predice simplemente igual a la velocidad en el tiempo t.
+        # Durante la corrección, este valor predicho se fusiona con el valor medido para producir la nueva estimación de velocidad.
+        # Esto puede ser problemático, ya que la velocidad final será efectivamente un promedio ponderado de la velocidad antigua
+        # y la nueva. Cuando esta velocidad se integra en una nueva pose, el resultado puede tener una convergencia lenta.
+        # Este efecto es especialmente notable con datos LIDAR durante rotaciones. Para solucionarlo, los usuarios pueden
+        # intentar inflar la covarianza de ruido de proceso (process_noise_covariance) para la variable de velocidad en cuestión,
+        # o disminuir la varianza de la variable en la medición misma. Además, los usuarios también pueden aprovechar el comando
+        # de control emitido al robot en el momento en que hacemos la predicción. Si se usa control, se convertirá en un término
+        # de aceleración, que se usará durante la predicción. Tenga en cuenta que si existe una medición de aceleración para la
+        # variable en cuestión en una de las entradas, el término de control será ignorado.
+        # Si usamos o no la entrada de control durante la predicción. Por defecto es false.
+        use_control: true
+
+        # Si la entrada (suponiendo que sea cmd_vel) es un mensaje geometry_msgs/Twist o geometry_msgs/TwistStamped. Por defecto
+        # es false.
+        stamped_control: true
+
+        # El último comando de control emitido se usará en la predicción durante este periodo. Por defecto es 0.2.
+        control_timeout: 0.2
+
+        # Qué velocidades están siendo controladas. El orden es vx, vy, vz, vroll, vpitch, vyaw.
+        control_config: [true, false, false, false, false, true]
+
+        # Limita qué tan grande puede ser el término de aceleración. Debe coincidir con la cinemática de su robot.
+        acceleration_limits: [1.3, 0.0, 0.0, 0.0, 0.0, 3.4]
+
+        # Los límites de aceleración y desaceleración no siempre son iguales para los robots.
+        deceleration_limits: [1.3, 0.0, 0.0, 0.0, 0.0, 4.5]
+
+        # Si su robot no puede alcanzar instantáneamente su límite de aceleración, el cambio permitido puede controlarse con estas
+        # ganancias.
+        acceleration_gains: [0.8, 0.0, 0.0, 0.0, 0.0, 0.9]
+
+        # Si su robot no puede alcanzar instantáneamente su límite de desaceleración, el cambio permitido puede controlarse con estas
+        # ganancias.
+        deceleration_gains: [1.0, 0.0, 0.0, 0.0, 0.0, 1.0]
+
+        # [AVANZADO] La matriz de covarianza del ruido de proceso puede ser difícil de ajustar y puede variar según la aplicación,
+        # por lo que se expone como un parámetro de configuración. Esta matriz representa el ruido que añadimos al error total
+        # después de cada paso de predicción. Cuanto mejor coincida el modelo de movimiento omnidireccional con su sistema,
+        # menores pueden ser estos valores. Sin embargo, si los usuarios encuentran que una variable dada converge lentamente, una
+        # forma es aumentar el valor diagonal de process_noise_covariance para la variable en cuestión, lo que hará que el error
+        # predicho del filtro sea mayor y, por tanto, que el filtro confíe más en la medición entrante durante la corrección.
+        # Los valores están ordenados como x, y, z, roll, pitch, yaw, vx, vy, vz, vroll, vpitch, vyaw, ax, ay, az.
+        # Por defecto se usa la matriz siguiente si no se especifica.
+        # Nota: la especificación de matrices de covarianza puede resultar engorrosa, así que todos los parámetros de matriz en
+        # este paquete admiten tanto especificación completa como solo especificación de los valores diagonales.
+        process_noise_covariance: [0.05, 0.0,    0.0,    0.0,    0.0,    0.0,    0.0,     0.0,     0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,
+                                   0.0,    0.05, 0.0,    0.0,    0.0,    0.0,    0.0,     0.0,     0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,
+                                   0.0,    0.0,    0.06, 0.0,    0.0,    0.0,    0.0,     0.0,     0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,
+                                   0.0,    0.0,    0.0,    0.03, 0.0,    0.0,    0.0,     0.0,     0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,
+                                   0.0,    0.0,    0.0,    0.0,    0.03, 0.0,    0.0,     0.0,     0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,
+                                   0.0,    0.0,    0.0,    0.0,    0.0,    0.06, 0.0,     0.0,     0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,
+                                   0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.025, 0.0,     0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,
+                                   0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,     0.025, 0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,
+                                   0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,     0.0,     0.04, 0.0,    0.0,    0.0,    0.0,    0.0,    0.0,
+                                   0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,     0.0,     0.0,    0.01, 0.0,    0.0,    0.0,    0.0,    0.0,
+                                   0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,     0.0,     0.0,    0.0,    0.01, 0.0,    0.0,    0.0,    0.0,
+                                   0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,     0.0,     0.0,    0.0,    0.0,    0.02, 0.0,    0.0,    0.0,
+                                   0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,     0.0,     0.0,    0.0,    0.0,    0.0,    0.01, 0.0,    0.0,
+                                   0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,     0.0,     0.0,    0.0,    0.0,    0.0,    0.0,    0.01, 0.0,
+                                   0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,     0.0,     0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.015]
+
+        # [AVANZADO] Esto representa el valor inicial para la matriz de covarianza del error de estimación del estado.
+        # Establecer un valor diagonal (varianza) en un valor grande dará como resultado una convergencia rápida para las
+        # mediciones iniciales de la variable en cuestión. Los usuarios deben tener cuidado de no usar valores grandes para
+        # variables que no se medirán directamente. Los valores están ordenados como x, y, z, roll, pitch, yaw, vx, vy, vz,
+        # vroll, vpitch, vyaw, ax, ay, az. Por defecto se usan los valores diagonales siguientes si no se especifica.
+        # En este ejemplo, especificamos solo la diagonal de la matriz.
+        initial_estimate_covariance: [1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9]
+
