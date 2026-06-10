@@ -7,6 +7,9 @@
 
     <!-- Incluye el nodo de lectura serial del IMU ICM-20948 desde el paquete stm32IMU. -->
     <include file="$(find stm32IMU)/launch/icm-20948_serial_node.launch" />
+    
+    <!-- Incluye la configuración de TF del robot, definiendo los marcos de referencia principales. -->
+    <include file="$(find pioneer_tfm)/launch/teleop.launch" />
 
     <!-- Nodo de fusión de sensores EKF de robot_localization. Carga los parámetros desde ekf_pioneer.yaml. -->
     <node pkg="robot_localization" type="ekf_localization_node" name="ekf_se" clear_params="true">

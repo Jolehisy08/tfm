@@ -24,8 +24,8 @@ TebLocalPlannerROS:
   # -------------------------------------------------------------------------
   # Goal Tolerance Parameters
   # -------------------------------------------------------------------------
-  xy_goal_tolerance: 0.15             # Tolerancia de posición final con respecto al objetivo en metros
-  yaw_goal_tolerance: 0.3             # Tolerancia de orientación final con respecto al objetivo en radianes
+  xy_goal_tolerance: 0.6            # Tolerancia de posición final con respecto al objetivo en metros
+  yaw_goal_tolerance: 0.5             # Tolerancia de orientación final con respecto al objetivo en radianes
   free_goal_vel: false                # Elimina la restricción de velocidad cero al alcanzar el objetivo
 
   # -------------------------------------------------------------------------
